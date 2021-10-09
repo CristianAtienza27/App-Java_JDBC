@@ -8,16 +8,18 @@ public class Empleado {
 	private String dni;
 	private Date fecha_nac;
 	private String poblacion;
+	private int idHotel;
 	
 	public Empleado(String dni) {
 		this.dni = dni;
 	}
-	public Empleado(String nombre, String apellidos, String dni, Date fecha_nac, String poblacion) {
+	public Empleado(String nombre, String apellidos, String dni, Date fecha_nac, String poblacion, int idHotel) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.dni = dni;
 		this.fecha_nac = fecha_nac;
 		this.poblacion = poblacion;
+		this.idHotel = idHotel;
 	}
 	public String getNombre() {
 		return nombre;
@@ -48,6 +50,12 @@ public class Empleado {
 	}
 	public void setPoblacion(String poblacion) {
 		this.poblacion = poblacion;
+	}
+	public int getIdHotel() {
+		return idHotel;
+	}
+	public void setIdHotel(int idHotel) {
+		this.idHotel = idHotel;
 	}
 	
 	
