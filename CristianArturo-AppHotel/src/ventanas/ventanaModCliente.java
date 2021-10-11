@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class modificarCliente extends JFrame {
+public class ventanaModCliente extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtPoblacion;
@@ -29,7 +29,7 @@ public class modificarCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					modificarCliente frame = new modificarCliente();
+					ventanaModCliente frame = new ventanaModCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class modificarCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public modificarCliente() {
+	public ventanaModCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 451, 451);
 		contentPane = new JPanel();

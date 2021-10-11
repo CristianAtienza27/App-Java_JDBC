@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class clientesHospedados extends JFrame {
+public class ventanaHabLibres extends JFrame {
 
 	private JPanel contentPane;
 
@@ -24,7 +24,7 @@ public class clientesHospedados extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					clientesHospedados frame = new clientesHospedados();
+					ventanaHabLibres frame = new ventanaHabLibres();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class clientesHospedados extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public clientesHospedados() {
+	public ventanaHabLibres() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -53,7 +53,7 @@ public class clientesHospedados extends JFrame {
 		btnSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				empleado empleado = new empleado();
+				ventanaEmpleado empleado = new ventanaEmpleado();
 				empleado.setVisible(true);
 				dispose();
 			}
@@ -61,11 +61,11 @@ public class clientesHospedados extends JFrame {
 		btnSalir.setBounds(323, 377, 89, 23);
 		contentPane.add(btnSalir);
 		
-		JLabel lblClientesHospedados = new JLabel("CLIENTES HOSPEDADOS");
-		lblClientesHospedados.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblClientesHospedados.setHorizontalAlignment(SwingConstants.CENTER);
-		lblClientesHospedados.setBounds(10, 11, 714, 38);
-		contentPane.add(lblClientesHospedados);
+		JLabel lblHabitacionesLibres = new JLabel("HABITACIONES LIBRES");
+		lblHabitacionesLibres.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblHabitacionesLibres.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHabitacionesLibres.setBounds(10, 11, 714, 38);
+		contentPane.add(lblHabitacionesLibres);
 	}
 
 }

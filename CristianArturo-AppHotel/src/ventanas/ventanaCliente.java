@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class cliente extends JFrame {
+public class ventanaCliente extends JFrame {
 
 	private JPanel contentPane;
 
@@ -26,7 +26,7 @@ public class cliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					cliente frame = new cliente();
+					ventanaCliente frame = new ventanaCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class cliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public cliente() {
+	public ventanaCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 360);
 		contentPane = new JPanel();
@@ -84,7 +84,7 @@ public class cliente extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				login login = new login();
+				ventanaLogin login = new ventanaLogin();
 				login.setVisible(true);
 				dispose();
 			}

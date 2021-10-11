@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class admin extends JFrame {
+public class ventanaAdmin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtId;
@@ -31,7 +31,7 @@ public class admin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					admin frame = new admin();
+					ventanaAdmin frame = new ventanaAdmin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class admin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public admin() {
+	public ventanaAdmin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -138,7 +138,7 @@ public class admin extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				login login = new login();
+				ventanaLogin login = new ventanaLogin();
 				login.setVisible(true);
 				dispose();
 			}

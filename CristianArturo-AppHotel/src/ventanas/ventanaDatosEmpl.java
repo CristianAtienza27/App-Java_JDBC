@@ -13,7 +13,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class datosPersonalesE extends JFrame {
+public class ventanaDatosEmpl extends JFrame {
 
 	private JPanel contentPane;
 
@@ -24,7 +24,7 @@ public class datosPersonalesE extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					datosPersonalesE frame = new datosPersonalesE();
+					ventanaDatosEmpl frame = new ventanaDatosEmpl();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class datosPersonalesE extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public datosPersonalesE() {
+	public ventanaDatosEmpl() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -53,7 +53,7 @@ public class datosPersonalesE extends JFrame {
 		btnSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				empleado empleado = new empleado();
+				ventanaEmpleado empleado = new ventanaEmpleado();
 				empleado.setVisible(true);
 				dispose();
 			}

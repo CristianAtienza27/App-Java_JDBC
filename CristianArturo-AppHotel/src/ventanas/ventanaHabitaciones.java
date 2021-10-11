@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class crudHabitaciones extends JFrame {
+public class ventanaHabitaciones extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtExtras;
@@ -30,7 +30,7 @@ public class crudHabitaciones extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					crudHabitaciones frame = new crudHabitaciones();
+					ventanaHabitaciones frame = new ventanaHabitaciones();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class crudHabitaciones extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public crudHabitaciones() {
+	public ventanaHabitaciones() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -128,7 +128,7 @@ public class crudHabitaciones extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				empleado empleado = new empleado();
+				ventanaEmpleado empleado = new ventanaEmpleado();
 				empleado.setVisible(true);
 				dispose();
 			}

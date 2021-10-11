@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class empleado extends JFrame {
+public class ventanaEmpleado extends JFrame {
 
 	private JPanel contentPane;
 
@@ -24,7 +24,7 @@ public class empleado extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					empleado frame = new empleado();
+					ventanaEmpleado frame = new ventanaEmpleado();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class empleado extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public empleado() {
+	public ventanaEmpleado() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 360);
 		contentPane = new JPanel();
@@ -55,7 +55,7 @@ public class empleado extends JFrame {
 		btnDatosP.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				datosPersonalesE dpe = new datosPersonalesE();
+				ventanaDatosEmpl dpe = new ventanaDatosEmpl();
 				dpe.setVisible(true);
 				dispose();
 			}
@@ -67,7 +67,7 @@ public class empleado extends JFrame {
 		btnClienteHosp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				clientesHospedados cHospedados = new clientesHospedados();
+				ventanaClientesHospedados cHospedados = new ventanaClientesHospedados();
 				cHospedados.setVisible(true);
 				dispose();
 			}
@@ -79,7 +79,7 @@ public class empleado extends JFrame {
 		btnComentarios.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				comentariosHoteles cHoteles = new comentariosHoteles();
+				ventanaComentariosHoteles cHoteles = new ventanaComentariosHoteles();
 				cHoteles.setVisible(true);
 				dispose();
 			}
@@ -91,7 +91,7 @@ public class empleado extends JFrame {
 		btnHotel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				crudHoteles cHotel = new crudHoteles();
+				ventanaHoteles cHotel = new ventanaHoteles();
 				cHotel.setVisible(true);
 				dispose();
 			}
@@ -103,7 +103,7 @@ public class empleado extends JFrame {
 		btnHabitacionesL.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				habitacionesLibres hLibres = new habitacionesLibres();
+				ventanaHabLibres hLibres = new ventanaHabLibres();
 				hLibres.setVisible(true);
 				dispose();
 			}
@@ -115,7 +115,7 @@ public class empleado extends JFrame {
 		btnHabitacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				crudHabitaciones cHab = new crudHabitaciones();
+				ventanaHabitaciones cHab = new ventanaHabitaciones();
 				cHab.setVisible(true);
 				dispose();
 			}
@@ -127,7 +127,7 @@ public class empleado extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				login login = new login();
+				ventanaLogin login = new ventanaLogin();
 				login.setVisible(true);
 				dispose();
 			}

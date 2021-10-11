@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class datosPersonalesC extends JFrame {
+public class ventanaDatosCliente extends JFrame {
 
 	private JPanel contentPane;
 
@@ -24,7 +24,7 @@ public class datosPersonalesC extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					datosPersonalesC frame = new datosPersonalesC();
+					ventanaDatosCliente frame = new ventanaDatosCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class datosPersonalesC extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public datosPersonalesC() {
+	public ventanaDatosCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -53,7 +53,7 @@ public class datosPersonalesC extends JFrame {
 		btnSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				empleado empleado = new empleado();
+				ventanaEmpleado empleado = new ventanaEmpleado();
 				empleado.setVisible(true);
 				dispose();
 			}

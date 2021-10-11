@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class crudHoteles extends JFrame {
+public class ventanaHoteles extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtId;
@@ -31,7 +31,7 @@ public class crudHoteles extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					crudHoteles frame = new crudHoteles();
+					ventanaHoteles frame = new ventanaHoteles();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class crudHoteles extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public crudHoteles() {
+	public ventanaHoteles() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
@@ -138,7 +138,7 @@ public class crudHoteles extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				empleado empleado = new empleado();
+				ventanaEmpleado empleado = new ventanaEmpleado();
 				empleado.setVisible(true);
 				dispose();
 			}

@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import datos.Cliente;
+import datos.Conexion;
+import modelo.ClienteDAO;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -16,9 +21,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-public class login extends JFrame {
+public class ventanaLogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUsuario;
@@ -33,8 +41,19 @@ public class login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login frame = new login();
+					ventanaLogin frame = new ventanaLogin();
 					frame.setVisible(true);
+					
+					ClienteDAO gestionClientes = new ClienteDAO();
+					gestionClientes.insertar(
+							new Cliente(
+									"Jose",
+									"Rodriguez",
+									"66182424L",
+									convertirFecha("1990/03/20"),
+									"url:jejeje"
+									));
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -45,7 +64,7 @@ public class login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public login() {
+	public ventanaLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 350);
 		contentPane = new JPanel();
@@ -102,7 +121,7 @@ public class login extends JFrame {
 		btnNuevoCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				registrarCliente nuevoC = new registrarCliente();
+				ventanaInsCliente nuevoC = new ventanaInsCliente();
 				nuevoC.setVisible(true);
 				dispose();
 			}
@@ -112,18 +131,19 @@ public class login extends JFrame {
 	}
 	
 	public void quienEntra() {
-		if(txtUsuario.getText() == "admin" && txtContraseña.getText() == "admin") {
-			admin admin = new admin();
+		if(txtUsuario.getText().equals("admin") && txtContraseña.getText().equals("admin")) {
+			
+			ventanaAdmin admin = new ventanaAdmin();
 			admin.setVisible(true);	
 			dispose();
 		}
-		if(txtUsuario.getText() == "empleado" && txtContraseña.getText() == "empleado") {
-			empleado empleado = new empleado();
+		if(txtUsuario.getText().equals("empleado") && txtContraseña.getText().equals("empleado")) {
+			ventanaEmpleado empleado = new ventanaEmpleado();
 			empleado.setVisible(true);	
 			dispose();
 		}
-		if(txtUsuario.getText() == "cliente" && txtContraseña.getText() == "cliente") {
-			cliente cliente = new cliente();
+		if(txtUsuario.getText().equals("cliente") && txtContraseña.getText().equals("cliente")) {
+			ventanaCliente cliente = new ventanaCliente();
 			cliente.setVisible(true);	
 			dispose();
 		}
@@ -131,5 +151,17 @@ public class login extends JFrame {
 			JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
 		}
 		
+	}
+	
+	public static Date convertirFecha(String fecha) {
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd");
+		Date fech = null;
+		try {
+			fech = formato.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fech;
 	}
 }
