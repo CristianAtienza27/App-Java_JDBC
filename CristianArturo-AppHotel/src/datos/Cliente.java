@@ -1,15 +1,17 @@
 package datos;
 
-import java.util.Date;
 
-public class Cliente {
+public class Cliente extends Usuario{
+	private int id;
 	private String nombre;
 	private String apellidos;
 	private String dni;
-	private Date fecha_nac;
+	private String fecha_nac;
 	private String imagen;
 	
-	public Cliente(String nombre, String apellidos, String dNI, Date fecha_nac, String imagen) {
+	public Cliente(int id, String nombre, String apellidos, String dNI, String fecha_nac, String imagen, String usuario, String contraseña) {
+		super(usuario,contraseña,"cliente");
+		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.dni = dNI;
@@ -17,10 +19,27 @@ public class Cliente {
 		this.imagen = imagen;
 	}	
 	
-	public Cliente(String dni) {
-		this.dni = dni;
+	public Cliente(String nombre, String apellidos, String dNI, String fecha_nac, String imagen, String usuario, String contraseña) {
+		super(usuario,contraseña,"cliente");
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dNI;
+		this.fecha_nac = fecha_nac;
+		this.imagen = imagen;
+	}	
+	
+	
+	public Cliente(int id) {
+		super("","","");
+		this.id = id;
 	}
 
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -39,10 +58,10 @@ public class Cliente {
 	public void setDNI(String dNI) {
 		this.dni = dNI;
 	}
-	public Date getFecha_nac() {
+	public String getFecha_nac() {
 		return fecha_nac;
 	}
-	public void setFecha_nac(Date fecha_nac) {
+	public void setFecha_nac(String fecha_nac) {
 		this.fecha_nac = fecha_nac;
 	}
 	public String getImagen() {

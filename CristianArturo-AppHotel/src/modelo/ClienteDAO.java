@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -23,16 +24,18 @@ public class ClienteDAO implements ICrud{
 			Cliente cliente = (Cliente)obj;
 			
 			con.setStmt(con.getConnection()
-					.prepareStatement("INSERT INTO `tcliente`(`nombre`, `apellidos`, `DNI`, `fechaNac`, `imagen`) "
-							+ "VALUES (?,?,?,?,?)"));
+					.prepareCall("{CALL pInsertarCliente (?, ?, ?, ?, ?, ?, ?, ?)}"));
 			
 		    con.getStmt().setString(1, cliente.getNombre());
 		    con.getStmt().setString(2, cliente.getApellidos());
 		    con.getStmt().setString(3, cliente.getDNI());
 		    con.getStmt().setString(4,  cliente.getFecha_nac().toString());
 		    con.getStmt().setString(5, cliente.getImagen());
-			
-		    con.getStmt().execute();
+		    con.getStmt().setString(6, cliente.getUsuario());
+		    con.getStmt().setString(7, cliente.getContraseña());
+			con.getStmt().setString(8, cliente.getRol());
+		    
+		    con.getStmt().executeUpdate();
 		    
 		    JOptionPane.showMessageDialog(null, "Registro con éxito");
 		    
@@ -51,7 +54,37 @@ public class ClienteDAO implements ICrud{
 
 	@Override
 	public boolean modificar(Object obj) {
-		// TODO Auto-generated method stub
+		
+		Conexion con = new Conexion();
+		
+		try {
+			
+			Cliente cliente = (Cliente)obj;
+			
+			con.setStmt(con.getConnection()
+					.prepareStatement("UPDATE `tcliente` SET `nombre`= ?,`apellidos`= ?,`DNI`=' ?',"
+							+ "`fechaNac`= ?,`imagen`= ? WHERE `idCliente` = ?"));
+			
+		    con.getStmt().setString(1, cliente.getNombre());
+		    con.getStmt().setString(2, cliente.getApellidos());
+		    con.getStmt().setString(3, cliente.getDNI());
+		    con.getStmt().setString(4,  cliente.getFecha_nac().toString());
+		    con.getStmt().setString(5, cliente.getImagen());
+			con.getStmt().setInt(6, cliente.getId());
+			
+			con.getStmt().executeUpdate();
+			
+			JOptionPane.showMessageDialog(null, "Actualizado con éxito");
+			
+			return true;
+		    
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarCon();
+		}
 		return false;
 	}
 
@@ -62,9 +95,37 @@ public class ClienteDAO implements ICrud{
 	}
 
 	@Override
-	public List<Object> mostrar(JTable table) {
-		// TODO Auto-generated method stub
-		return null;
+	public void mostrar(JTable table) {
+		
+		Conexion con = new Conexion();
+		
+		try {
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT * FROM tcliente"));
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				
+				int id = con.getRs().getInt(1);
+				String nombre = con.getRs().getString(2);
+				String apellidos = con.getRs().getString(3);
+				String dni = con.getRs().getString(4);
+				String fechaNac = con.getRs().getString(5);
+				String imagen = con.getRs().getString(6);
+				
+				//clientes.add(new Cliente(id, nombre, apellidos, dni, fechaNac, imagen, null, null));
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+
 	}
 
 }

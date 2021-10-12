@@ -2,24 +2,48 @@ package datos;
 
 import java.util.Date;
 
-public class Empleado {
+public class Empleado extends Usuario{
+	private int id;
 	private String nombre;
 	private String apellidos;
 	private String dni;
-	private Date fecha_nac;
+	private String fecha_nac;
 	private String poblacion;
 	private int idHotel;
 	
-	public Empleado(String dni) {
-		this.dni = dni;
+	public Empleado(int id) {
+		super("","","");
+		this.id = id;
 	}
-	public Empleado(String nombre, String apellidos, String dni, Date fecha_nac, String poblacion, int idHotel) {
+	
+	public Empleado(int id, String nombre, String apellidos, String dni,
+			String fecha_nac, String poblacion, int idHotel, String usuario, String contraseña) {
+		super(usuario, contraseña, "empleado");
+		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.dni = dni;
 		this.fecha_nac = fecha_nac;
 		this.poblacion = poblacion;
 		this.idHotel = idHotel;
+	}
+
+	public Empleado(String nombre, String apellidos, String dni, String fecha_nac, 
+			String poblacion, int idHotel,String usuario, String contraseña) {
+		super(usuario, contraseña, "empleado");
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
+		this.fecha_nac = fecha_nac;
+		this.poblacion = poblacion;
+		this.idHotel = idHotel;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getNombre() {
 		return nombre;
@@ -39,10 +63,10 @@ public class Empleado {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	public Date getFecha_nac() {
+	public String getFecha_nac() {
 		return fecha_nac;
 	}
-	public void setFecha_nac(Date fecha_nac) {
+	public void setFecha_nac(String fecha_nac) {
 		this.fecha_nac = fecha_nac;
 	}
 	public String getPoblacion() {

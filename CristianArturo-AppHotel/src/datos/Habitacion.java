@@ -5,18 +5,28 @@ public class Habitacion {
 	private String tipo;
 	private Double precioNoche;
 	private String extras;
+	private int idHotel;
 	
-	public Habitacion(int numHab, String tipo, Double precioNoche, String extras) {
+	public Habitacion(int numHab, String tipo, Double precioNoche, String extras, int idHotel) {
 		this.numHab = numHab;
 		this.tipo = tipo;
 		this.precioNoche = precioNoche;
 		this.extras = extras;
+		this.idHotel = idHotel;
 	}
 	
 	public Habitacion(int numHab) {
 		this.numHab = numHab;
 	}
 	
+	
+	public int getIdHotel() {
+		return idHotel;
+	}
+
+	public void setIdHotel(int idHotel) {
+		this.idHotel = idHotel;
+	}
 
 	public int getNumHab() {
 		return numHab;

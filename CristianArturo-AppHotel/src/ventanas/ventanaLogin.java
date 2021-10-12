@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +33,6 @@ public class ventanaLogin extends JFrame {
 	private JTextField txtUsuario;
 	private JTextField txtContraseña;
 
-	
 
 	/**
 	 * Launch the application.
@@ -50,8 +50,10 @@ public class ventanaLogin extends JFrame {
 									"Jose",
 									"Rodriguez",
 									"66182424L",
-									convertirFecha("1990/03/20"),
-									"url:jejeje"
+									"1994-01-01",
+									"url:jejeje",
+									"Jose22",
+									"1234"
 									));
 					
 				} catch (Exception e) {
@@ -152,16 +154,5 @@ public class ventanaLogin extends JFrame {
 		}
 		
 	}
-	
-	public static Date convertirFecha(String fecha) {
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy/mm/dd");
-		Date fech = null;
-		try {
-			fech = formato.parse(fecha);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return fech;
-	}
+
 }

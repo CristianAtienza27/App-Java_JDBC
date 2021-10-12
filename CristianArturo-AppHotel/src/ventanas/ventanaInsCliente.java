@@ -120,19 +120,7 @@ public class ventanaInsCliente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				ClienteDAO gestionClientes = new ClienteDAO();
-				
-				if(gestionClientes.insertar(
-								new Cliente(txtNombre.getText(),
-											txtApellido.getText(),
-											txtDni.getText(),
-										    convertirFecha("1994-01-01"),
-										    txtImagen.getText()
-											))) {
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al insertar");
-				}
+			
 				
 				ventanaLogin login = new ventanaLogin();
 				login.setVisible(true);

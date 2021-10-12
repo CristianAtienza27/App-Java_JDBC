@@ -47,13 +47,23 @@ public class Conexion {
 		return rs;
 	}
 
-	public void setRs(ResultSet rs) {
-		this.rs = rs;
+	public void setRs() {
+		
+		try {
+			rs = stmt.executeQuery();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
 	}
 
 	public void cerrarCon() {
 		try {
-			connection.close();
+			
+			if(!connection.isClosed()) {
+				connection.close();
+			}
+
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -61,7 +71,11 @@ public class Conexion {
 	
 	public void cerrarStmt() {
 		try {
-			stmt.close();
+			
+			if(!stmt.isClosed()) {
+				stmt.close();
+			}
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -69,7 +83,11 @@ public class Conexion {
 	
 	public void cerrarRs() {
 		try {
-			rs.close();
+			
+			if(rs.isClosed()) {
+				rs.close();
+			}
+
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

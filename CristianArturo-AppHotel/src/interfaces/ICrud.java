@@ -10,5 +10,5 @@ public interface ICrud {
 	public boolean insertar(Object obj);
 	public boolean modificar(Object obj);
 	public boolean eliminar(Object obj);
-	public List<Object> mostrar(JTable table);
+	public void mostrar(JTable table);
 }
