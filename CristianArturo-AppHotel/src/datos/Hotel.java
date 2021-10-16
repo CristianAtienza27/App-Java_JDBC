@@ -8,10 +8,8 @@ public class Hotel {
 	private String direccion;
 	private String telefono;
 	
-	public Hotel(String nombre, String direccion) {
-		this.nombre = nombre;
-		this.direccion = direccion;
-		
+	public Hotel(int id) {
+		this.id = id;
 	}
 	
 	public Hotel(String nombre, String descripcion, String ciudad, String direccion, String telefono) {

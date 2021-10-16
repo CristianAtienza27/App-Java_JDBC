@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import datos.Cliente;
 import datos.Conexion;
@@ -95,13 +96,20 @@ public class ClienteDAO implements ICrud{
 	}
 
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object tabla, String iD) {
 		
 		Conexion con = new Conexion();
 		
+		JTable jtable = (JTable)tabla;
+		
+		String[] columnNames = {"ID","NOMBRE","APELLIDOS","DNI","FECHA NACIMIENTO"};
+		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+		
 		try {
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT * FROM tcliente"));
+					.prepareStatement("SELECT * FROM tcliente WHERE usuario = ?"));
+			
+			con.getStmt().setString(1, iD);
 			
 			con.setRs();
 			
@@ -114,8 +122,11 @@ public class ClienteDAO implements ICrud{
 				String fechaNac = con.getRs().getString(5);
 				String imagen = con.getRs().getString(6);
 				
+				modelo.addRow(new Object[] {id, nombre, apellidos, dni, fechaNac });
 				//clientes.add(new Cliente(id, nombre, apellidos, dni, fechaNac, imagen, null, null));
 			}
+			
+			jtable.setModel(modelo);
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -126,6 +137,43 @@ public class ClienteDAO implements ICrud{
 			con.cerrarCon();
 		}
 
+	}
+	
+	public static Cliente obtenerClientePorUsuario(String usuario) {
+		
+		Conexion con = new Conexion();
+		
+		try {
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT * FROM tcliente WHERE usuario = ?"));
+			
+			con.getStmt().setString(1, usuario);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				
+				int id = con.getRs().getInt(1);
+				String nombre = con.getRs().getString(2);
+				String apellidos = con.getRs().getString(3);
+				String dni = con.getRs().getString(4);
+				String fechaNac = con.getRs().getString(5);
+				String imagen = con.getRs().getString(6);
+				String user = con.getRs().getString(7);
+				
+				return new Cliente(id, nombre, apellidos, dni, fechaNac, imagen, user, null);
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		return null;
 	}
 
 }

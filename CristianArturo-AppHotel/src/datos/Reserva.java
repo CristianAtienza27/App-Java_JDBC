@@ -14,16 +14,18 @@ public class Reserva {
 		this.numReserva = numReserva;
 	}
 	
-	public Reserva(int idHotel, int numHabitacion, String fechaIni, String fechaFin) {
+	public Reserva(int idCliente, int idHotel, int numHabitacion, String fechaIni, String fechaFin) {
 		super();
+		this.idCliente = idCliente;
 		this.idHotel = idHotel;
 		this.numHabitacion = numHabitacion;
 		this.fechaIni = fechaIni;
 		this.fechaFin = fechaFin;
 	}
 	
-	public Reserva(int numReserva, int idHotel, int numHabitacion, String fechaIni, String fechaFin) {
+	public Reserva(int idCliente, int numReserva, int idHotel, int numHabitacion, String fechaIni, String fechaFin) {
 		super();
+		this.idCliente = idCliente;
 		this.numReserva = numReserva;
 		this.idHotel = idHotel;
 		this.numHabitacion = numHabitacion;

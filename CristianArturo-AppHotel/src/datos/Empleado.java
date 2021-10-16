@@ -39,6 +39,19 @@ public class Empleado extends Usuario{
 		this.idHotel = idHotel;
 	}
 	
+	
+	public Empleado(int id, String nombre, String apellidos, String dni,
+			String fecha_nac, String poblacion, int idHotel) {
+		super("","","empleado");
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
+		this.fecha_nac = fecha_nac;
+		this.poblacion = poblacion;
+		this.idHotel = idHotel;
+	}
+
 	public int getId() {
 		return id;
 	}

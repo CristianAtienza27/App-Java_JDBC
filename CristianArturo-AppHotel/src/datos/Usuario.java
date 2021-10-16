@@ -10,6 +10,12 @@ public class Usuario {
 		this.contraseña = contraseña;
 		this.rol = rol;
 	}
+	
+	public Usuario(String usuario, String contraseña) {
+		this.usuario = usuario;
+		this.contraseña = contraseña;
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}

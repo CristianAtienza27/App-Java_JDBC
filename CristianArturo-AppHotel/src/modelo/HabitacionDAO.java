@@ -2,6 +2,7 @@ package modelo;
 
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +24,7 @@ public class HabitacionDAO implements ICrud{
 			
 			con.setStmt(con.getConnection()
 					.prepareStatement("INSERT INTO `thabitacion`(`idHotel`, `tipo`, `precioNoche`, `extras`) "
-							+ "VALUES (?, ?, ?, ?, ?)"));
+							+ "VALUES (?, ?, ?, ?)"));
 			
 			con.getStmt().setInt(1, habitacion.getIdHotel());
 			con.getStmt().setString(2, habitacion.getTipo());
@@ -96,9 +97,11 @@ public class HabitacionDAO implements ICrud{
 			
 			con.setStmt(con.getConnection()
 					.prepareStatement("DELETE FROM `thabitacion`"
-							+ " WHERE numHabitacion = ?"));
+							+ "  WHERE `thabitacion`.`idHotel` = ?"
+							+ " AND `thabitacion`.`numHabitacion` = ? "));
 			
-			con.getStmt().setInt(1, habitacion.getNumHab());
+			con.getStmt().setInt(1, habitacion.getIdHotel());
+			con.getStmt().setInt(2, habitacion.getNumHab());
 			
 			con.getStmt().executeUpdate();
 			
@@ -112,26 +115,42 @@ public class HabitacionDAO implements ICrud{
 		finally 
 		{
 			con.cerrarStmt();
-			con.cerrarCon();	
+			con.cerrarCon();
 		}
 		
 		return false;
 	}
 
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object salida, String id) {
 		
 		Conexion con = new Conexion();
 		
-		String[] columnNames = {"HOTEL","Nº HABITACION","TIPO","PRECIO/NOCHE","EXTRAS"};
-		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+		JTable tabla = null;
+		JComboBox comboBox = null;
+		DefaultTableModel modelo = null;
+		
+		if(salida instanceof JTable) {
+			
+			tabla = (JTable)salida;
+			
+			String[] columnNames = {"HOTEL","Nº HABITACION","TIPO","PRECIO/NOCHE","EXTRAS"};
+			modelo = new DefaultTableModel(columnNames, 0);
+		}
+		else if(salida instanceof JComboBox) {
+			comboBox = (JComboBox)salida;
+		}
+	
 		
 		try {
 			
 			con.setStmt(con.getConnection()
 					.prepareStatement("SELECT THO.nombre, THA.numHabitacion, tha.tipo, tha.precioNoche, tha.extras "
 							+ "FROM thabitacion THA INNER JOIN thotel THO "
-							+ "ON THA.idHotel = THO.idHotel;"));
+							+ "ON THA.idHotel = THO.idHotel "
+							+ "WHERE THA.idHotel = ?;"));
+			
+			con.getStmt().setString(1, id);
 			
 			con.setRs();
 			
@@ -143,12 +162,21 @@ public class HabitacionDAO implements ICrud{
 				Double precioNoche = con.getRs().getDouble(4);
 				String extras = con.getRs().getString(5);
 				
-				modelo.addRow(new Object[] {hotel, numHabitacion, tipo, precioNoche, extras});
-				
+				if(salida instanceof JTable) {
+					modelo.addRow(new Object[] {hotel, numHabitacion, tipo, precioNoche, extras});
+				}
+				else if(salida instanceof JComboBox) {
+					comboBox.addItem(hotel);
+				}
+			
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
 			
-			table.setModel(modelo);
+			if(salida instanceof JTable) {
+				tabla.setModel(modelo);
+			}
+			
+			//return modelo;
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -158,7 +186,7 @@ public class HabitacionDAO implements ICrud{
 			con.cerrarRs();
 			con.cerrarCon();
 		}
-
+		
 	}
 	
 }

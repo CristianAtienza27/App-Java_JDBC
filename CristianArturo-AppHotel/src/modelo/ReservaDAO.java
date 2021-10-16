@@ -124,20 +124,27 @@ public class ReservaDAO implements ICrud{
 	}
 
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object table, String id) {
 		
 	Conexion con = new Conexion();
 		
 		String[] columnNames = {"Nº RESERVA","HOTEL","HABITACIÓN","FECHA ENTRADA","FECHA SALIDA"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 		
+		JTable jTable = (JTable)table;
+		
 		try {
 			
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT TR.idReserva, TH.nombre, THA.tipo, TR.fechaIni, TR.fechaFin "
-							+ "FROM treserva TR INNER JOIN tcliente TC ON TR.IdCliente = TC.IdCliente "
-							+ "INNER JOIN THOTEL TH ON TR.idHotel = TH.idHotel "
-							+ "INNER JOIN thabitacion THA ON THA.idHotel = TH.idHotel;"));
+					.prepareStatement("SELECT TR.idReserva, THO.nombre, THA.tipo, TR.fechaIni, TR.fechaFin FROM tcliente TC INNER JOIN treserva TR\r\n"
+							+ "ON TC.IdCliente = TR.IdCliente\r\n"
+							+ "INNER JOIN thabitacion THA \r\n"
+							+ "ON TR.numHabitacion = THA.numHabitacion\r\n"
+							+ "INNER JOIN thotel THO \r\n"
+							+ "ON THA.idHotel = THO.idHotel\r\n"
+							+ "WHERE TC.usuario = ?"));
+			
+			con.getStmt().setString(1, id);
 			
 			con.setRs();
 			
@@ -154,7 +161,7 @@ public class ReservaDAO implements ICrud{
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
 			
-			table.setModel(modelo);
+			jTable.setModel(modelo);
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -164,6 +171,60 @@ public class ReservaDAO implements ICrud{
 			con.cerrarRs();
 			con.cerrarCon();
 		}
+		
+	}
+	
+	public void buscarHabitacionesLibres(JTable table, String hotelSelec, String fechaIniSelec, String fechaFinSelec) {
+	
+	Conexion con = new Conexion();
+		
+		String[] columnNames = {"Nº HABITACION","HABITACIÓN","EXTRAS","PRECIO/NOCHE"};
+		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+		
+		JTable jTable = (JTable)table;
+		
+		try {
+			
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT THA.numHabitacion, THA.tipo, THA.extras, THA.precioNoche "
+							+ "FROM thabitacion THA INNER JOIN thotel THO "
+							+ "ON THA.idHotel = THO.idHotel "
+							+ "WHERE THO.idHotel = ? AND THA.numHabitacion "
+							+ "NOT IN (SELECT numHabitacion FROM treserva "
+							+ "WHERE '2021-09-15' BETWEEN fechaIni AND fechaFin "
+							+ "OR '2021-09-16' BETWEEN fechaIni AND fechaFin)"));
+			
+			con.getStmt().setString(1, hotelSelec);
+			//con.getStmt().setString(2, fechaIniSelec);
+			//con.getStmt().setString(3, fechaFinSelec);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				
+				int numHabitacion  = con.getRs().getInt(1);
+				String habitacion = con.getRs().getString(2);
+				String extras = con.getRs().getString(3);
+				String precioNoche = con.getRs().getString(4);
+				
+				modelo.addRow(new Object[] {numHabitacion, habitacion, extras, precioNoche});
+				
+				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
+			}
+			
+			jTable.setModel(modelo);
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+	}
+	
+	private void verClientesHospedados() {
 		
 	}
 

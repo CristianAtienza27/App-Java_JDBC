@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import datos.Cliente;
 import datos.Conexion;
 import datos.Empleado;
+import datos.Usuario;
 import interfaces.ICrud;
 
 public class EmpleadoDAO implements ICrud{
@@ -127,18 +128,22 @@ public class EmpleadoDAO implements ICrud{
 		return false;
 	}
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object table, String iD) {
 		
 		Conexion con = new Conexion();
+		
+		JTable JTable = (JTable)table;
 		
 		String[] columnNames = {"ID","NOMBRE","APELLIDOS","DNI","FECHA NACIMIENTO, POBLACIÓN, LUGAR DE TRABAJO"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 		
 		try {
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre"
+					.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario, tu.contraseña "
 							+ "FROM templeado TE INNER JOIN thotel TH "
-							+ "ON TE.idHotel = TH.idHotel;"));
+							+ "ON TE.idHotel = TH.idHotel "
+							+ "INNER JOIN tusuario TU "
+							+ "ON TE.usuario = TU.usuario;"));
 			
 			con.setRs();
 			
@@ -152,13 +157,15 @@ public class EmpleadoDAO implements ICrud{
 				String poblacion = con.getRs().getString(6);
 				String hotel = con.getRs().getString(7);
 				String usuario = con.getRs().getString(8);
+				String contraseña = con.getRs().getString(9);
 				
-				modelo.addRow(new Object[] {id, nombre, apellidos, dni, fechaNac, poblacion, hotel});
+				modelo.addRow(new Object[] {id, nombre, apellidos, dni, poblacion, hotel, usuario, contraseña});
 				
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
 			
-			table.setModel(modelo);
+			JTable.setModel(modelo);
+			//return modelo;
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -169,5 +176,42 @@ public class EmpleadoDAO implements ICrud{
 			con.cerrarCon();
 		}
 
+	}
+	
+	public static Empleado obtenerEmpleadoPorUsuario(String usuario) {
+		
+		Conexion con = new Conexion();
+		
+		try {
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT * FROM templeado WHERE usuario = ?"));
+			
+			con.getStmt().setString(1, usuario);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				
+				int id = con.getRs().getInt(1);
+				String nombre = con.getRs().getString(2);
+				String apellidos = con.getRs().getString(3);
+				String dni = con.getRs().getString(4);
+				String fechaNac = con.getRs().getString(5);
+				String poblacion = con.getRs().getString(6);
+				int idHotel = con.getRs().getInt(7);
+				
+				return new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel);
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		return null;
 	}
 }

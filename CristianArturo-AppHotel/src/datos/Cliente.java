@@ -9,6 +9,10 @@ public class Cliente extends Usuario{
 	private String fecha_nac;
 	private String imagen;
 	
+	public Cliente() {
+		super("","","");
+	}
+	
 	public Cliente(int id, String nombre, String apellidos, String dNI, String fecha_nac, String imagen, String usuario, String contraseña) {
 		super(usuario,contraseña,"cliente");
 		this.id = id;
@@ -26,9 +30,20 @@ public class Cliente extends Usuario{
 		this.dni = dNI;
 		this.fecha_nac = fecha_nac;
 		this.imagen = imagen;
-	}	
+	}
 	
 	
+	public Cliente(int id, String nombre, String apellidos, String dni,
+			String fecha_nac, String imagen) {
+		super("", "", "");
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
+		this.fecha_nac = fecha_nac;
+		this.imagen = imagen;
+	}
+
 	public Cliente(int id) {
 		super("","","");
 		this.id = id;

@@ -60,12 +60,14 @@ public class ValoracionDAO implements ICrud{
 	}
 
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object table, String id) {
 		
 		Conexion con = new Conexion();
 		
 		String[] columnNames = {"CLIENTE","HABITACIÓN","HOTEL","COMENTARIO","VALORACIÓN"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+		
+		JTable jTable = (JTable)table;
 		
 		try {
 			
@@ -91,7 +93,7 @@ public class ValoracionDAO implements ICrud{
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
 			
-			table.setModel(modelo);
+			jTable.setModel(modelo);
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

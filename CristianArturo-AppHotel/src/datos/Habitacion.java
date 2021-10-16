@@ -15,7 +15,20 @@ public class Habitacion {
 		this.idHotel = idHotel;
 	}
 	
-	public Habitacion(int numHab) {
+
+	
+	public Habitacion(String tipo, Double precioNoche, String extras, int idHotel) {
+		super();
+		this.tipo = tipo;
+		this.precioNoche = precioNoche;
+		this.extras = extras;
+		this.idHotel = idHotel;
+	}
+
+
+
+	public Habitacion(int idHotel, int numHab) {
+		this.idHotel = idHotel;
 		this.numHab = numHab;
 	}
 	

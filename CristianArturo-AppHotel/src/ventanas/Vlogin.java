@@ -6,10 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import datos.Cliente;
-import datos.Conexion;
+import datos.Empleado;
+import datos.Usuario;
 import modelo.ClienteDAO;
+import modelo.GestionUsuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,18 +24,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 
-public class ventanaLogin extends JFrame {
+public class Vlogin extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JTextField txtContraseña;
+	private JComboBox cmbEntrar;
 
+	
 
 	/**
 	 * Launch the application.
@@ -41,21 +44,8 @@ public class ventanaLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaLogin frame = new ventanaLogin();
+					Vlogin frame = new Vlogin();
 					frame.setVisible(true);
-					
-					ClienteDAO gestionClientes = new ClienteDAO();
-					gestionClientes.insertar(
-							new Cliente(
-									"Jose",
-									"Rodriguez",
-									"66182424L",
-									"1994-01-01",
-									"url:jejeje",
-									"Jose22",
-									"1234"
-									));
-					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,9 +56,9 @@ public class ventanaLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ventanaLogin() {
+	public Vlogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 350);
+		setBounds(100, 100, 350, 410);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -82,11 +72,11 @@ public class ventanaLogin extends JFrame {
 		contentPane.add(lblLogin);
 		
 		JLabel lblUsuario = new JLabel("USUARIO");
-		lblUsuario.setBounds(60, 100, 92, 20);
+		lblUsuario.setBounds(62, 110, 92, 20);
 		contentPane.add(lblUsuario);
 		
 		JLabel lblContraseña = new JLabel("CONTRASE\u00D1A");
-		lblContraseña.setBounds(60, 150, 92, 20);
+		lblContraseña.setBounds(62, 160, 92, 20);
 		contentPane.add(lblContraseña);
 		
 		JButton btnCancelar = new JButton("CANCELAR");
@@ -96,26 +86,86 @@ public class ventanaLogin extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(10, 250, 142, 50);
+		btnCancelar.setBounds(10, 310, 142, 50);
 		contentPane.add(btnCancelar);
 		
-		JButton btnConfirmar = new JButton("CONFIRMAR");
-		btnConfirmar.addMouseListener(new MouseAdapter() {
+		
+		
+		
+		
+		
+		
+		
+		JButton btnEntrar = new JButton("ENTRAR");
+		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				quienEntra();
+				
+				GestionUsuario gestionUsuario = new GestionUsuario();
+						
+				try 
+				{
+					
+					if(!txtUsuario.getText().equals("") || !txtContraseña.getText().equals("")){
+						
+						Usuario usuario = (Usuario) gestionUsuario.comprobarUsuario(new Usuario(txtUsuario.getText(), txtContraseña.getText()));
+						
+						if(usuario.getRol() == "cliente") {
+	
+							Vcliente ventanaCliente = new Vcliente((Cliente)usuario);	
+							
+							ventanaCliente.setVisible(true);
+							dispose();
+						}
+						else if(usuario.getRol() == "empleado") {
+							
+							Vempleado ventanaEmpleado = new Vempleado((Empleado)usuario);
+							
+							ventanaEmpleado.setVisible(true);
+							dispose();
+							
+						}
+						else if(usuario.getRol() == "admin") {
+							
+							Vadmin ventanaAdmin = new Vadmin();
+							
+							ventanaAdmin.setVisible(true);
+							dispose();
+							
+						}
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Correo/contraseña no pueden ir vacíos");
+					}
+					
+				}
+				catch(Exception ex) 
+				{
+					JOptionPane.showMessageDialog(null, "Correo/contraseña errónea");
+				}
+				
 			}
 		});
-		btnConfirmar.setBounds(180, 250, 144, 50);
-		contentPane.add(btnConfirmar);
+		btnEntrar.setBounds(180, 310, 144, 50);
+		contentPane.add(btnEntrar);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(159, 100, 115, 20);
+		txtUsuario.setBounds(161, 110, 115, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		txtContraseña = new JTextField();
-		txtContraseña.setBounds(159, 150, 115, 20);
+		txtContraseña.setBounds(161, 160, 115, 20);
 		contentPane.add(txtContraseña);
 		txtContraseña.setColumns(10);
 		
@@ -123,36 +173,37 @@ public class ventanaLogin extends JFrame {
 		btnNuevoCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ventanaInsCliente nuevoC = new ventanaInsCliente();
+				VregistrarCliente nuevoC = new VregistrarCliente();
 				nuevoC.setVisible(true);
 				dispose();
 			}
 		});
-		btnNuevoCliente.setBounds(60, 200, 214, 23);
+		btnNuevoCliente.setBounds(62, 210, 214, 23);
 		contentPane.add(btnNuevoCliente);
 	}
 	
-	public void quienEntra() {
+	/*public void quienEntra() {
 		if(txtUsuario.getText().equals("admin") && txtContraseña.getText().equals("admin")) {
-			
-			ventanaAdmin admin = new ventanaAdmin();
+			Vadmin admin = new Vadmin();
 			admin.setVisible(true);	
 			dispose();
+			return;
 		}
 		if(txtUsuario.getText().equals("empleado") && txtContraseña.getText().equals("empleado")) {
-			ventanaEmpleado empleado = new ventanaEmpleado();
+			Vempleado empleado = new Vempleado();
 			empleado.setVisible(true);	
 			dispose();
+			return;
 		}
 		if(txtUsuario.getText().equals("cliente") && txtContraseña.getText().equals("cliente")) {
-			ventanaCliente cliente = new ventanaCliente();
+			Vcliente cliente = new Vcliente();
 			cliente.setVisible(true);	
 			dispose();
+			return;
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+			JOptionPane.showMessageDialog(null, "Usuario o contraseña Erroneos");
 		}
 		
-	}
-
+	}*/
 }

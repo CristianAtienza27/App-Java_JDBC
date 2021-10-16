@@ -2,6 +2,7 @@ package modelo;
 
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -121,12 +122,25 @@ public class HotelDAO implements ICrud{
 	}
 
 	@Override
-	public void mostrar(JTable table) {
+	public void mostrar(Object salida, String id) {
 		
 	Conexion con = new Conexion();
 		
-		String[] columnNames = {"ID","NOMBRE","CIUDAD","DESCRIPCIÓN","DIRECCIÓN","TELÉFONO"};
-		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+	DefaultTableModel modelo = null;
+	JTable jTable = null;
+	JComboBox comboBox = null;
+	
+		if(salida instanceof JTable) {
+			
+			jTable = (JTable)salida;
+			
+			String[] columnNames = {"ID","NOMBRE","CIUDAD","DESCRIPCIÓN","DIRECCIÓN","TELÉFONO"};
+			modelo = new DefaultTableModel(columnNames, 0);
+			
+		}
+		else if(salida instanceof JComboBox) {
+			comboBox = (JComboBox)salida;
+		}
 		
 		try {
 			
@@ -143,12 +157,20 @@ public class HotelDAO implements ICrud{
 				String descripcion = con.getRs().getString(4);
 				String telefono = con.getRs().getString(5);
 				
-				modelo.addRow(new Object[] {idHotel, nombre, ciudad, descripcion, telefono});
+				if(salida instanceof JTable) {
+					modelo.addRow(new Object[] {idHotel, nombre, ciudad, descripcion, telefono});
+				}
+				else if(salida instanceof JComboBox) {
+					comboBox.addItem(nombre);
+				}
 				
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
 			
-			table.setModel(modelo);
+			if(salida instanceof JTable) {
+				jTable.setModel(modelo);
+			}
+			//return modelo;
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -159,6 +181,37 @@ public class HotelDAO implements ICrud{
 			con.cerrarCon();
 		}
 
+	}
+	
+	public static int obtenerIdHotelPorNombre(String nombre) {
+		
+		Conexion con = new Conexion();
+		
+		int idHotel = -1;
+		
+		try {
+			
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT idHotel FROM thotel WHERE nombre = ?"));
+			
+			con.getStmt().setString(1, nombre);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				idHotel = con.getRs().getInt(1);
+			}
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		return idHotel;
 	}
 	
 }
