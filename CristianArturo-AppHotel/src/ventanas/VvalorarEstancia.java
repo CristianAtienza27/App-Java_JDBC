@@ -16,6 +16,9 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
 
 public class VvalorarEstancia extends JFrame {
 
@@ -44,9 +47,11 @@ public class VvalorarEstancia extends JFrame {
 	 * Create the frame.
 	 */
 	public VvalorarEstancia() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VvalorarEstancia.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 520);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -57,18 +62,6 @@ public class VvalorarEstancia extends JFrame {
 		lblValorarEstancia.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblValorarEstancia.setBounds(10, 45, 414, 43);
 		contentPane.add(lblValorarEstancia);
-		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Vcliente cliente = new Vcliente(null);
-				cliente.setVisible(true);
-				dispose();
-			}
-		});
-		btnAtras.setBounds(340, 11, 89, 23);
-		contentPane.add(btnAtras);
 		
 		JLabel lblHotel = new JLabel("HOTEL");
 		lblHotel.setBounds(47, 125, 120, 30);
@@ -101,16 +94,44 @@ public class VvalorarEstancia extends JFrame {
 		lblValoracion.setBounds(47, 276, 120, 30);
 		contentPane.add(lblValoracion);
 		
-		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBounds(47, 375, 151, 68);
-		contentPane.add(btnCancelar);
-		
-		JButton btnCornfirmar = new JButton("CONFIRMAR");
-		btnCornfirmar.setBounds(208, 375, 151, 68);
-		contentPane.add(btnCornfirmar);
-		
 		JSpinner spnValoracion = new JSpinner();
 		spnValoracion.setBounds(167, 281, 200, 20);
 		contentPane.add(spnValoracion);
+		
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vcliente cliente = new Vcliente(null);
+				cliente.setVisible(true);
+				dispose();
+			}
+		});
+		lblAtras.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(392, 11, 32, 32);
+		contentPane.add(lblAtras);
+		
+		JLabel lblCancelar = new JLabel("");
+		lblCancelar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		lblCancelar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cancelar_96.png")));
+		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCancelar.setBounds(47, 335, 96, 96);
+		contentPane.add(lblCancelar);
+		
+		JLabel lblEntrar = new JLabel("");
+		lblEntrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		lblEntrar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cnfirmar_96.png")));
+		lblEntrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEntrar.setBounds(271, 335, 96, 96);
+		contentPane.add(lblEntrar);
 	}
 }

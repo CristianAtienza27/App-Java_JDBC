@@ -64,10 +64,20 @@ public class EmpleadoDAO implements ICrud{
 			
 			Empleado empleado = (Empleado)obj;
 			
-			con.setStmt(con.getConnection()
-					.prepareStatement("UPDATE `templeado` SET `nombre`= ?,`apellidos`= ?,"
-							+ "`DNI`= ?,`fechaNac`= ?,`poblacion`= ?,`idHotel`= ?,`usuario`= ?"
-							+ " WHERE ?"));
+			con.setStmt((con.getConnection()
+					.prepareStatement("UPDATE tusuario SET `usuario` = ?, `contraseña` = ? "
+							+ "WHERE `usuario` = (SELECT `usuario` FROM templeado WHERE `idEmpleado` = ?);")));
+			
+			con.getStmt().setString(1, empleado.getUsuario());
+			con.getStmt().setString(2, empleado.getContraseña());
+			con.getStmt().setInt(3, empleado.getId());
+			
+			con.getStmt().executeUpdate();
+			
+			con.setStmt((con.getConnection()
+					.prepareStatement("UPDATE templeado SET `nombre` = ?, `apellidos` = ?, `DNI` = ?, `fechaNac` = ?,"
+							+ " `poblacion` = ?, `idHotel` = ? "
+							+ "WHERE idEmpleado = ?;")));
 			
 			con.getStmt().setString(1, empleado.getNombre());
 			con.getStmt().setString(2, empleado.getApellidos());
@@ -75,12 +85,12 @@ public class EmpleadoDAO implements ICrud{
 			con.getStmt().setString(4, empleado.getFecha_nac());
 			con.getStmt().setString(5, empleado.getPoblacion());
 			con.getStmt().setInt(6, empleado.getIdHotel());
-			con.getStmt().setString(7, empleado.getUsuario());
-			con.getStmt().setInt(8, empleado.getId());
+			con.getStmt().setInt(7, empleado.getId());
+
 			
 			con.getStmt().executeUpdate();
 		    
-		    JOptionPane.showMessageDialog(null, "Registro con éxito");
+		    JOptionPane.showMessageDialog(null, "Modificado con éxito");
 		    
 		    return true;
 			
@@ -106,7 +116,7 @@ public class EmpleadoDAO implements ICrud{
 			Empleado empleado = (Empleado)obj;
 			
 			con.setStmt(con.getConnection()
-					.prepareCall("{CALL pEliminarEmpleado (?)}"));
+					.prepareStatement("DELETE FROM templeado WHERE idEmpleado = ?"));
 			
 			con.getStmt().setInt(1, empleado.getId());
 			
@@ -134,12 +144,12 @@ public class EmpleadoDAO implements ICrud{
 		
 		JTable JTable = (JTable)table;
 		
-		String[] columnNames = {"ID","NOMBRE","APELLIDOS","DNI","FECHA NACIMIENTO, POBLACIÓN, LUGAR DE TRABAJO"};
+		String[] columnNames = {"ID","NOMBRE","APELLIDOS","DNI","FECHA NACIMIENTO", "POBLACIÓN", "LUGAR DE TRABAJO"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 		
 		try {
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario, tu.contraseña "
+					.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario "
 							+ "FROM templeado TE INNER JOIN thotel TH "
 							+ "ON TE.idHotel = TH.idHotel "
 							+ "INNER JOIN tusuario TU "
@@ -157,9 +167,8 @@ public class EmpleadoDAO implements ICrud{
 				String poblacion = con.getRs().getString(6);
 				String hotel = con.getRs().getString(7);
 				String usuario = con.getRs().getString(8);
-				String contraseña = con.getRs().getString(9);
 				
-				modelo.addRow(new Object[] {id, nombre, apellidos, dni, poblacion, hotel, usuario, contraseña});
+				modelo.addRow(new Object[] {id, nombre, apellidos, dni, fechaNac, poblacion, hotel, usuario});
 				
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}
@@ -199,8 +208,9 @@ public class EmpleadoDAO implements ICrud{
 				String fechaNac = con.getRs().getString(5);
 				String poblacion = con.getRs().getString(6);
 				int idHotel = con.getRs().getInt(7);
+				String user = con.getRs().getString(8);
 				
-				return new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel);
+				return new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, user, "");
 			}
 			
 		} catch (SQLException e) {

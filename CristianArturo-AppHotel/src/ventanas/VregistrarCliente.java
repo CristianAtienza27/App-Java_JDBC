@@ -27,6 +27,9 @@ import modelo.ClienteDAO;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
 
 public class VregistrarCliente extends JFrame {
 
@@ -45,6 +48,7 @@ public class VregistrarCliente extends JFrame {
 	 * Create the frame.
 	 */
 	public VregistrarCliente() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VregistrarCliente.class.getResource("/Imagenes/hoteles.png")));
 		
 		CargarInterfazGrafica();
 		gestionClientes = new ClienteDAO();		
@@ -55,77 +59,90 @@ public class VregistrarCliente extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 451, 652);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		
 		JLabel lblNombre = new JLabel("NOMBRE");
-		lblNombre.setBounds(60, 313, 120, 30);
+		lblNombre.setBounds(58, 281, 120, 30);
 		contentPane.add(lblNombre);
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(180, 318, 200, 20);
+		txtNombre.setBounds(178, 286, 200, 20);
 		contentPane.add(txtNombre);
 		
 		JLabel lblApellido = new JLabel("APELLIDO");
-		lblApellido.setBounds(60, 354, 120, 30);
+		lblApellido.setBounds(58, 322, 120, 30);
 		contentPane.add(lblApellido);
 		
 		txtApellido = new JTextField();
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(180, 359, 200, 20);
+		txtApellido.setBounds(178, 327, 200, 20);
 		contentPane.add(txtApellido);
 		
 		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(60, 395, 120, 30);
+		lblDni.setBounds(58, 363, 120, 30);
 		contentPane.add(lblDni);
 		
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
-		txtDni.setBounds(180, 400, 200, 20);
+		txtDni.setBounds(178, 368, 200, 20);
 		contentPane.add(txtDni);
 		
 		JLabel lblFechaNacimiento = new JLabel("FECHA DE NACIMIENTO");
-		lblFechaNacimiento.setBounds(60, 442, 120, 30);
+		lblFechaNacimiento.setBounds(58, 404, 120, 30);
 		contentPane.add(lblFechaNacimiento);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(134, 72, 173, 164);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		JLabel lblImagen = new JLabel("");
-		lblImagen.setBounds(10, 5, 153, 148);
-		panel.add(lblImagen);
-		
 		JLabel lblContraseña = new JLabel("CONTRASE\u00D1A");
-		lblContraseña.setBounds(60, 511, 120, 30);
+		lblContraseña.setBounds(58, 479, 120, 25);
 		contentPane.add(lblContraseña);
 		
 		txtContraseña = new JTextField();
 		txtContraseña.setColumns(10);
-		txtContraseña.setBounds(180, 516, 200, 20);
+		txtContraseña.setBounds(178, 484, 200, 20);
 		contentPane.add(txtContraseña);
 		
 		dtFechaNacimiento = new JDateChooser();
 		dtFechaNacimiento.setDateFormatString("yyyy-MM-dd");
-		dtFechaNacimiento.setBounds(180, 442, 200, 20);
+		dtFechaNacimiento.setBounds(178, 410, 200, 20);
 		contentPane.add(dtFechaNacimiento);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(180, 483, 200, 20);
+		txtUsuario.setBounds(178, 451, 200, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
+		JLabel lblCliente = new JLabel("CLIENTE");
+		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCliente.setBounds(10, 11, 415, 50);
+		contentPane.add(lblCliente);
 		
-		JButton btnConfirmar = new JButton("CONFIRMAR");
-		btnConfirmar.addMouseListener(new MouseAdapter() {
+		JLabel lblNewLabel = new JLabel("USUARIO");
+		lblNewLabel.setBounds(58, 454, 49, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblCancelar = new JLabel("");
+		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				Cliente cliente = null;
+				Vlogin login = new Vlogin();
+				login.setVisible(true);
+				dispose();
+			}
+		});
+		lblCancelar.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/Cancelar_96.png")));
+		lblCancelar.setBounds(58, 515, 96, 96);
+		contentPane.add(lblCancelar);
+		
+		JLabel lblConfirmar = new JLabel("");
+		lblConfirmar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+Cliente cliente = null;
 				
 				if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
 				   !txtDni.getText().equals("") || !dtFechaNacimiento.getDate().toString().equals("") ||
@@ -161,47 +178,29 @@ public class VregistrarCliente extends JFrame {
 				else {
 					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
 				}
-				
 			}
 		});
-		btnConfirmar.setBounds(230, 552, 144, 50);
-		contentPane.add(btnConfirmar);
+		lblConfirmar.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/Cnfirmar_96.png")));
+		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmar.setBounds(282, 515, 96, 96);
+		contentPane.add(lblConfirmar);
 		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/user_84308.png")));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(154, 72, 128, 128);
+		contentPane.add(lblNewLabel_1);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.addMouseListener(new MouseAdapter() {
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Vlogin login = new Vlogin();
-				login.setVisible(true);
-				dispose();
 			}
 		});
-		btnCancelar.setBounds(60, 552, 142, 50);
-		contentPane.add(btnCancelar);
-		
-		JLabel lblCliente = new JLabel("CLIENTE");
-		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCliente.setBounds(10, 11, 415, 50);
-		contentPane.add(lblCliente);
-		
-		JButton btnAñadir = new JButton("A\u00D1ADIR");
-		btnAñadir.setBounds(180, 247, 89, 23);
-		contentPane.add(btnAñadir);
-		
-		JLabel lblNewLabel = new JLabel("USUARIO");
-		lblNewLabel.setBounds(60, 486, 49, 14);
-		contentPane.add(lblNewLabel);
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/NuevoCliente_64.png")));
+		lblNewLabel_2.setBounds(178, 203, 72, 72);
+		contentPane.add(lblNewLabel_2);
 		
 	}
 	

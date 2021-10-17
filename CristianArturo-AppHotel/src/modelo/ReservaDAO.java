@@ -24,13 +24,11 @@ public class ReservaDAO implements ICrud{
 			
 			con.setStmt(con.getConnection()
 					.prepareStatement("INSERT INTO `treserva`(`IdCliente`, `numHabitacion`, `idHotel`, `fechaIni`, `fechaFin`) "
-							+ "VALUES (?, ?, ?, ?, ?)"));
+							+ "VALUES (?, ?, ?, '" + reserva.getFechaIni() + "' , '" + reserva.getFechaFin() + "' )"));
 			
 			con.getStmt().setInt(1, reserva.getIdCliente());
 			con.getStmt().setInt(2, reserva.getNumHabitacion());
 			con.getStmt().setInt(3, reserva.getIdHotel());
-			con.getStmt().setString(4, reserva.getFechaIni());
-			con.getStmt().setString(5, reserva.getFechaFin());
 			
 			con.getStmt().executeUpdate();
 			
@@ -174,7 +172,7 @@ public class ReservaDAO implements ICrud{
 		
 	}
 	
-	public void buscarHabitacionesLibres(JTable table, String hotelSelec, String fechaIniSelec, String fechaFinSelec) {
+	public void buscarHabitacionesLibres(JTable table, int hotelSelec, String fechaIniSelec, String fechaFinSelec) {
 	
 	Conexion con = new Conexion();
 		
@@ -186,16 +184,13 @@ public class ReservaDAO implements ICrud{
 		try {
 			
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT THA.numHabitacion, THA.tipo, THA.extras, THA.precioNoche "
-							+ "FROM thabitacion THA INNER JOIN thotel THO "
-							+ "ON THA.idHotel = THO.idHotel "
-							+ "WHERE THO.idHotel = ? AND THA.numHabitacion "
-							+ "NOT IN (SELECT numHabitacion FROM treserva "
-							+ "WHERE '2021-09-15' BETWEEN fechaIni AND fechaFin "
-							+ "OR '2021-09-16' BETWEEN fechaIni AND fechaFin)"));
+					.prepareStatement("SELECT numHabitacion, tipo, extras, precioNoche FROM thabitacion WHERE idHotel = ? "
+							+ "AND numHabitacion NOT IN(SELECT numHabitacion FROM treserva WHERE idHotel = ?"
+							+ " AND '" + fechaIniSelec + "' BETWEEN fechaIni AND fechaFin"
+							+ " OR '" + fechaFinSelec + "' BETWEEN fechaIni and fechaFin)"));
 			
-			con.getStmt().setString(1, hotelSelec);
-			//con.getStmt().setString(2, fechaIniSelec);
+			con.getStmt().setInt(1, hotelSelec);
+			con.getStmt().setInt(2, hotelSelec);
 			//con.getStmt().setString(3, fechaFinSelec);
 			
 			con.setRs();
@@ -224,8 +219,44 @@ public class ReservaDAO implements ICrud{
 		}
 	}
 	
-	private void verClientesHospedados() {
+	public static void verClientesHospedados(JTable tabla, int idHotel, String fecha) {
 		
+		Conexion con = new Conexion();
+		
+		String[] columnNames = {"CLIENTE","Nº HABITACIÓN","HABITACIÓN"};
+		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
+
+		try {
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT TC.nombre, TR.numHabitacion, (SELECT tipo from thabitacion WHERE numHabitacion = TR.numHabitacion) , "
+							+ "(SELECT nombre FROM thotel WHERE idHotel = TR.idHotel) "
+							+ "FROM tcliente TC INNER JOIN treserva TR ON TC.IdCliente = TR.IdCliente "
+							+ "WHERE TR.idHotel = ? AND '2021-09-15' BETWEEN TR.fechaIni AND TR.fechaFin;"));
+			
+			con.getStmt().setInt(1, idHotel);
+			//con.getStmt().setString(2, fecha);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				
+				String cliente = con.getRs().getString(1);
+				String habitacion = con.getRs().getString(2);
+				
+				modelo.addRow(new Object[] { cliente, habitacion} );
+			}
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally
+		{
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		tabla.setModel(modelo);
 	}
 
 }

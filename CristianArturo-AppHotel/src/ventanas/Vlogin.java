@@ -26,6 +26,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
 
 
 public class Vlogin extends JFrame {
@@ -57,9 +60,12 @@ public class Vlogin extends JFrame {
 	 * Create the frame.
 	 */
 	public Vlogin() {
+		setForeground(SystemColor.activeCaption);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Vlogin.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 410);
+		setBounds(100, 100, 333, 430);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -79,30 +85,36 @@ public class Vlogin extends JFrame {
 		lblContraseña.setBounds(62, 160, 92, 20);
 		contentPane.add(lblContraseña);
 		
-		JButton btnCancelar = new JButton("CANCELAR");
-		btnCancelar.addMouseListener(new MouseAdapter() {
+
+		
+		txtUsuario = new JTextField();
+		txtUsuario.setBounds(161, 110, 115, 20);
+		contentPane.add(txtUsuario);
+		txtUsuario.setColumns(10);
+		
+		txtContraseña = new JTextField();
+		txtContraseña.setBounds(161, 160, 115, 20);
+		contentPane.add(txtContraseña);
+		txtContraseña.setColumns(10);
+		
+		JLabel lblCancelar = new JLabel("");
+		lblCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(10, 310, 142, 50);
-		contentPane.add(btnCancelar);
+		lblCancelar.setIcon(new ImageIcon(Vlogin.class.getResource("/Imagenes/Cancelar_64.png")));
+		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCancelar.setBounds(10, 310, 64, 64);
+		contentPane.add(lblCancelar);
 		
-		
-		
-		
-		
-		
-		
-		
-		JButton btnEntrar = new JButton("ENTRAR");
-		btnEntrar.addMouseListener(new MouseAdapter() {
+		JLabel lblEntrar = new JLabel("");
+		lblEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				GestionUsuario gestionUsuario = new GestionUsuario();
-						
+				
 				try 
 				{
 					
@@ -142,35 +154,17 @@ public class Vlogin extends JFrame {
 				}
 				catch(Exception ex) 
 				{
-					JOptionPane.showMessageDialog(null, "Correo/contraseña errónea");
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
-				
 			}
 		});
-		btnEntrar.setBounds(180, 310, 144, 50);
-		contentPane.add(btnEntrar);
+		lblEntrar.setIcon(new ImageIcon(Vlogin.class.getResource("/Imagenes/confirmar_64.png")));
+		lblEntrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEntrar.setBounds(243, 310, 64, 64);
+		contentPane.add(lblEntrar);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		txtUsuario = new JTextField();
-		txtUsuario.setBounds(161, 110, 115, 20);
-		contentPane.add(txtUsuario);
-		txtUsuario.setColumns(10);
-		
-		txtContraseña = new JTextField();
-		txtContraseña.setBounds(161, 160, 115, 20);
-		contentPane.add(txtContraseña);
-		txtContraseña.setColumns(10);
-		
-		JButton btnNuevoCliente = new JButton("REGISTRAR NUEVO CLIENTE");
-		btnNuevoCliente.addMouseListener(new MouseAdapter() {
+		JLabel lblNuevoCliente = new JLabel("");
+		lblNuevoCliente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				VregistrarCliente nuevoC = new VregistrarCliente();
@@ -178,32 +172,9 @@ public class Vlogin extends JFrame {
 				dispose();
 			}
 		});
-		btnNuevoCliente.setBounds(62, 210, 214, 23);
-		contentPane.add(btnNuevoCliente);
+		lblNuevoCliente.setIcon(new ImageIcon(Vlogin.class.getResource("/Imagenes/NuevoCliente_64.png")));
+		lblNuevoCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNuevoCliente.setBounds(121, 191, 72, 72);
+		contentPane.add(lblNuevoCliente);
 	}
-	
-	/*public void quienEntra() {
-		if(txtUsuario.getText().equals("admin") && txtContraseña.getText().equals("admin")) {
-			Vadmin admin = new Vadmin();
-			admin.setVisible(true);	
-			dispose();
-			return;
-		}
-		if(txtUsuario.getText().equals("empleado") && txtContraseña.getText().equals("empleado")) {
-			Vempleado empleado = new Vempleado();
-			empleado.setVisible(true);	
-			dispose();
-			return;
-		}
-		if(txtUsuario.getText().equals("cliente") && txtContraseña.getText().equals("cliente")) {
-			Vcliente cliente = new Vcliente();
-			cliente.setVisible(true);	
-			dispose();
-			return;
-		}
-		else {
-			JOptionPane.showMessageDialog(null, "Usuario o contraseña Erroneos");
-		}
-		
-	}*/
 }

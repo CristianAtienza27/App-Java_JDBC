@@ -20,13 +20,17 @@ import java.awt.Font;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 
 public class VmisReservas extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private Cliente cliente;
 	private ReservaDAO misReservas;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -35,19 +39,62 @@ public class VmisReservas extends JFrame {
 	 * Create the frame.
 	 */
 	public VmisReservas(Cliente cliente) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VmisReservas.class.getResource("/Imagenes/hoteles.png")));
 		CargarInterfazGrafica();
 		
 		this.cliente = cliente;
 		
 		misReservas = new ReservaDAO();
+		
 		misReservas.mostrar(table, cliente.getUsuario());
+		
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vcliente ventanaCliente = new Vcliente(cliente);
+				ventanaCliente.setVisible(true);
+				dispose();
+			}
+		});
+		lblAtras.setIcon(new ImageIcon(VmisReservas.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(392, 11, 32, 32);
+		contentPane.add(lblAtras);
+		
+		JLabel lblCancelar = new JLabel("");
+		lblCancelar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				
+			}
+		});
+		lblCancelar.setIcon(new ImageIcon(VmisReservas.class.getResource("/Imagenes/cancelbutton_83661.png")));
+		lblCancelar.setBounds(63, 422, 128, 128);
+		contentPane.add(lblCancelar);
+		
+		JLabel lblValorar = new JLabel("");
+		lblValorar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VvalorarEstancia valorarEstancia = new VvalorarEstancia();
+				valorarEstancia.setVisible(true);
+				dispose();
+			}
+		});
+		lblValorar.setIcon(new ImageIcon(VmisReservas.class.getResource("/Imagenes/rate_favoriteapplicationstarratin_calificacion_aplicacionfavorita_2889.png")));
+		lblValorar.setBounds(237, 422, 128, 128);
+		contentPane.add(lblValorar);
 		
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 567);
+		setBounds(100, 100, 450, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -62,6 +109,11 @@ public class VmisReservas extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 99, 414, 294);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 16, 394, 267);
+		panel.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
@@ -69,34 +121,7 @@ public class VmisReservas extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		panel.add(table);
-		
-		JButton btnCancelarReserva = new JButton("CANCELAR RESERVA");
-		btnCancelarReserva.setBounds(64, 424, 151, 68);
-		contentPane.add(btnCancelarReserva);
-		
-		JButton btnValorarEstancia = new JButton("VALORAR ESTANCIA");
-		btnValorarEstancia.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VvalorarEstancia valorarEstancia = new VvalorarEstancia();
-				valorarEstancia.setVisible(true);
-				dispose();
-			}
-		});
-		btnValorarEstancia.setBounds(225, 424, 151, 68);
-		contentPane.add(btnValorarEstancia);
-		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Vcliente ventanaCliente = new Vcliente(cliente);
-				ventanaCliente.setVisible(true);
-				dispose();
-			}
-		});
-		btnAtras.setBounds(340, 11, 89, 23);
-		contentPane.add(btnAtras);
+		scrollPane.setViewportView(table);
 	}
 
 }

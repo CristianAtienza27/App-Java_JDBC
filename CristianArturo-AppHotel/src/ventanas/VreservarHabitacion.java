@@ -26,12 +26,15 @@ import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 
 
 public class VreservarHabitacion extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JComboBox comboBox;
 	private HotelDAO gestionHotel;
 	private JDateChooser dtFechaIni;
@@ -39,12 +42,14 @@ public class VreservarHabitacion extends JFrame {
 	
 	private Cliente cliente;
 	private ReservaDAO gestionReserva;
+	private JTable table;
 	
 	//private HabitacionDAO gestionHabitaciones;
 	/**
 	 * Create the frame.
 	 */
 	public VreservarHabitacion(Cliente cliente) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VreservarHabitacion.class.getResource("/Imagenes/hoteles.png")));
 		CargarInterfazGrafica();
 		
 		this.cliente = cliente;
@@ -52,11 +57,25 @@ public class VreservarHabitacion extends JFrame {
 		gestionHotel = new HotelDAO();
 		gestionHotel.mostrar(comboBox, null);
 		
-		JButton btnReservar = new JButton("RESERVAR");
-		btnReservar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vcliente ventanaCliente = new Vcliente(cliente);
+				ventanaCliente.setVisible(true);
+				dispose();
+			}
+		});
+		lblAtras.setIcon(new ImageIcon(VreservarHabitacion.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(692, 11, 32, 32);
+		contentPane.add(lblAtras);
 		
+		JLabel lblReservar = new JLabel("");
+		lblReservar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
 				gestionReserva = new ReservaDAO();
 				
 				if(gestionReserva.insertar(
@@ -68,7 +87,9 @@ public class VreservarHabitacion extends JFrame {
 								convertirFecha(dtFechaFin)
 								))) {
 					
-					
+					VmisReservas vMisReservas = new VmisReservas(cliente);
+					vMisReservas.setVisible(true);
+					dispose();
 					
 				}
 				else {
@@ -76,11 +97,35 @@ public class VreservarHabitacion extends JFrame {
 				}
 				
 				
+			}
+		});
+		lblReservar.setIcon(new ImageIcon(VreservarHabitacion.class.getResource("/Imagenes/confirmar_64.png")));
+		lblReservar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblReservar.setBounds(328, 346, 64, 64);
+		contentPane.add(lblReservar);
+		
+		JLabel lblBuscar = new JLabel("");
+		lblBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if(!comboBox.getSelectedItem().equals("") && !dtFechaIni.getDate().equals(null) && !dtFechaFin.getDate().equals(null)) {
+					
+					ReservaDAO gestionReserva = new ReservaDAO();
+					
+					gestionReserva.buscarHabitacionesLibres(
+							table, 
+							HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+							convertirFecha(dtFechaIni),
+							convertirFecha(dtFechaFin));
+				}
 				
 			}
 		});
-		btnReservar.setBounds(318, 379, 89, 23);
-		contentPane.add(btnReservar);
+		lblBuscar.setIcon(new ImageIcon(VreservarHabitacion.class.getResource("/Imagenes/1490129321-rounded10_82180.png")));
+		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBuscar.setBounds(328, 91, 64, 64);
+		contentPane.add(lblBuscar);
 	
 		//gestionHabitaciones = new HabitacionDAO();
 		//gestionHabitaciones.mostrar(comboBox, getName());
@@ -89,7 +134,7 @@ public class VreservarHabitacion extends JFrame {
 	public String convertirFecha(JDateChooser dt) {
 		
 		String dia = Integer.toString(dt.getCalendar().get(Calendar.DAY_OF_MONTH));
-		String mes =  Integer.toString(dt.getCalendar().get(Calendar.MONTH));
+		String mes =  Integer.toString(dt.getCalendar().get(Calendar.MONTH) + 1);
 		String año =  Integer.toString(dt.getCalendar().get(Calendar.YEAR));
 		
 		return año + "-" + mes + "-" + dia;
@@ -100,6 +145,7 @@ public class VreservarHabitacion extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -130,32 +176,6 @@ public class VreservarHabitacion extends JFrame {
 		
 		
 		
-		JButton btnBuscar = new JButton("BUSCAR");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if(!comboBox.getSelectedItem().equals("") && !dtFechaIni.getDate().equals(null) && !dtFechaFin.getDate().equals(null)) {
-					
-					ReservaDAO gestionReserva = new ReservaDAO();
-					
-					gestionReserva.buscarHabitacionesLibres(
-							table, 
-							comboBox.getSelectedItem().toString(),
-							convertirFecha(dtFechaIni),
-							convertirFecha(dtFechaFin));
-				}
-				
-			}
-		});
-		btnBuscar.setBounds(318, 103, 89, 23);
-		contentPane.add(btnBuscar);
-		
-		
-		
-		
-		
-		
-		
 		
 		JLabel lblReservarHabitacion = new JLabel("RESERVAR HABITACIONES");
 		lblReservarHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
@@ -164,48 +184,21 @@ public class VreservarHabitacion extends JFrame {
 		contentPane.add(lblReservarHabitacion);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 137, 714, 222);
+		panel.setBounds(10, 166, 714, 169);
 		contentPane.add(panel);
+		panel.setLayout(null);
 		
-		
-		
-		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 694, 147);
+		panel.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				
-			
-				
-				
-				
-				
 			}
 		});
-		panel.add(table);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				Vcliente ventanaCliente = new Vcliente(cliente);
-				ventanaCliente.setVisible(true);
-				dispose();
-				
-			}
-		});
-		btnAtras.setBounds(635, 11, 89, 23);
-		contentPane.add(btnAtras);
+		scrollPane.setViewportView(table);
 		
 		dtFechaIni = new JDateChooser();
 		dtFechaIni.setDateFormatString("yyyy-MM-dd");

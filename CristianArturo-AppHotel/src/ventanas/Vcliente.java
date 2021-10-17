@@ -19,18 +19,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class Vcliente extends JFrame {
 
 	private JPanel contentPane;
-	public JTable tablaCliente;
     public Cliente clienteLogeado;
     private ClienteDAO gestionClientes;
+    private JLabel lblCliente;
+    private JTable tablaCliente;
 
 	/**
 	 * Create the frame.
 	 */
 	public Vcliente(Cliente clienteLogeado) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Vcliente.class.getResource("/Imagenes/hoteles.png")));
 		
 		CargarInterfazGrafica();
 		
@@ -38,76 +46,9 @@ public class Vcliente extends JFrame {
 		
 		gestionClientes = new ClienteDAO();
 		gestionClientes.mostrar(tablaCliente, clienteLogeado.getUsuario());
-	
-	}
-	
-	public void CargarInterfazGrafica() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 615, 460);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setLocationRelativeTo(null);
 		
-		JLabel lblCliente = new JLabel("BIENVENIDO CLIENTE");
-		lblCliente.setBounds(95, 11, 407, 60);
-		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 18));
-		contentPane.add(lblCliente);
-		
-		JButton btnModificar = new JButton("MODIFICAR MIS DATOS");
-		btnModificar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VregistrarCliente registrarCliente = new VregistrarCliente();
-				registrarCliente.setVisible(true);
-				dispose();
-			}
-		});
-		btnModificar.setBounds(10, 299, 579, 50);
-		contentPane.add(btnModificar);
-		
-		
-		
-		
-		
-		
-		
-		JButton btnReservarHabitacion = new JButton("RESERVAR UNA HABITACION");
-		btnReservarHabitacion.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VreservarHabitacion reservarHabitacion = new VreservarHabitacion(clienteLogeado);
-				reservarHabitacion.setVisible(true);
-				dispose();
-			}
-		});
-		
-		
-		
-		
-		
-		
-		
-		
-		btnReservarHabitacion.setBounds(10, 360, 579, 50);
-		contentPane.add(btnReservarHabitacion);
-		
-		JButton btnMisReservas = new JButton("MIS RESERVAS");
-		btnMisReservas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VmisReservas misReservas = new VmisReservas(clienteLogeado);
-				misReservas.setVisible(true);
-				dispose();
-			}
-		});
-		btnMisReservas.setBounds(10, 237, 579, 50);
-		contentPane.add(btnMisReservas);
-		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addMouseListener(new MouseAdapter() {
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Vlogin login = new Vlogin();
@@ -115,28 +56,112 @@ public class Vcliente extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(503, 11, 86, 24);
-		contentPane.add(btnAtras);
+		lblAtras.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 82, 400, 144);
-		contentPane.add(panel);
-		
-		tablaCliente = new JTable();
-		tablaCliente.addMouseListener(new MouseAdapter() {
+		JLabel lblMisRevervas = new JLabel("");
+		lblMisRevervas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				VmisReservas misReservas = new VmisReservas(clienteLogeado);
+				misReservas.setVisible(true);
+				dispose();
 			}
 		});
-		panel.add(tablaCliente);
+		lblMisRevervas.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/flexiblechagedatecalendarbooking_109688.png")));
+		lblMisRevervas.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(420, 82, 169, 144);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
+		JLabel lblReservarHabitacion = new JLabel("");
+		lblReservarHabitacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VreservarHabitacion reservarHabitacion = new VreservarHabitacion(clienteLogeado);
+				reservarHabitacion.setVisible(true);
+				dispose();
+			}
+		});
+		lblReservarHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblReservarHabitacion.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/bed_bed_room_sleep_furniture_icon_124423.png")));
+		
+		JLabel lblModificarDatos = new JLabel("");
+		lblModificarDatos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VregistrarCliente registrarCliente = new VregistrarCliente();
+				registrarCliente.setVisible(true);
+				dispose();
+			}
+		});
+		lblModificarDatos.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/compose_edit_modify_icon_177769.png")));
+		lblModificarDatos.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblImagen = new JLabel("");
-		lblImagen.setBounds(10, 11, 149, 122);
-		panel_1.add(lblImagen);
+		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImagen.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/user_84308.png")));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(89)
+					.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
+					.addGap(56)
+					.addComponent(lblAtras))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(44)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblImagen, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(5)
+					.addComponent(lblMisRevervas, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblModificarDatos, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblReservarHabitacion, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(6)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblAtras))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(11)
+							.addComponent(lblImagen, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(23)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMisRevervas, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblModificarDatos, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblReservarHabitacion, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)))
+		);
+		
+		scrollPane.setViewportView(tablaCliente);
+		contentPane.setLayout(gl_contentPane);
+	
+	}
+	
+	public void CargarInterfazGrafica() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 615, 460);
+		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		
+		lblCliente = new JLabel("BIENVENIDO CLIENTE");
+		lblCliente.setBackground(SystemColor.text);
+		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 18));
+		
+		tablaCliente = new JTable();
 	}
 }
+

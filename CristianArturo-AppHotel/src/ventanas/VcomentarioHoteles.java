@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 
 public class VcomentarioHoteles extends JFrame {
 
@@ -40,9 +44,11 @@ public class VcomentarioHoteles extends JFrame {
 	 * Create the frame.
 	 */
 	public VcomentarioHoteles() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VcomentarioHoteles.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -51,21 +57,26 @@ public class VcomentarioHoteles extends JFrame {
 		JLabel lblComentarHoteles = new JLabel("COMENTAR HOTELES");
 		lblComentarHoteles.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComentarHoteles.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblComentarHoteles.setBounds(69, 11, 556, 38);
+		lblComentarHoteles.setBounds(83, 11, 556, 38);
 		contentPane.add(lblComentarHoteles);
 		
 		JLabel lblHotel = new JLabel("HOTEL");
 		lblHotel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblHotel.setBounds(69, 60, 89, 23);
+		lblHotel.setBounds(83, 60, 89, 23);
 		contentPane.add(lblHotel);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(168, 60, 89, 22);
+		comboBox.setBounds(182, 60, 89, 22);
 		contentPane.add(comboBox);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 137, 714, 263);
+		panel.setBounds(10, 200, 714, 200);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 694, 178);
+		panel.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
@@ -73,10 +84,21 @@ public class VcomentarioHoteles extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		panel.add(table);
+		scrollPane.setViewportView(table);
 		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addMouseListener(new MouseAdapter() {
+		JLabel lblBuscar = new JLabel("");
+		lblBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		lblBuscar.setIcon(new ImageIcon(VcomentarioHoteles.class.getResource("/Imagenes/1490129321-rounded10_82180.png")));
+		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBuscar.setBounds(321, 93, 96, 96);
+		contentPane.add(lblBuscar);
+		
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Vempleado empleado = new Vempleado(null);
@@ -84,11 +106,9 @@ public class VcomentarioHoteles extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(635, 11, 89, 23);
-		contentPane.add(btnAtras);
-		
-		JButton btnBuscar = new JButton("BUSCAR");
-		btnBuscar.setBounds(318, 103, 89, 23);
-		contentPane.add(btnBuscar);
+		lblAtras.setIcon(new ImageIcon(VcomentarioHoteles.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(692, 11, 32, 32);
+		contentPane.add(lblAtras);
 	}
 }

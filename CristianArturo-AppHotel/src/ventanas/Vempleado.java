@@ -18,79 +18,31 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 
 public class Vempleado extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	
 	private Empleado empleadoLogeado;
 	private EmpleadoDAO gestionEmpleados;
+	private JTable table;
 	
 	/**
 	 * Create the frame.
 	 */
 	public Vempleado(Empleado empleadoLogeado) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Vempleado.class.getResource("/Imagenes/hoteles.png")));
 		CargarInterfazGrafica();
 		this.empleadoLogeado = empleadoLogeado;
 		gestionEmpleados = new EmpleadoDAO();
 		gestionEmpleados.mostrar(table, null);
 		
-	}
-	
-	public void CargarInterfazGrafica() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 615, 449);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		setLocationRelativeTo(null);
-		
-		JLabel lblGestionEmpleado = new JLabel("GESTOR DEL EMPLEADO");
-		lblGestionEmpleado.setBounds(69, 11, 473, 60);
-		lblGestionEmpleado.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblGestionEmpleado.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblGestionEmpleado);
-		
-		JButton btnClienteHosp = new JButton("CLIENTES HOS.");
-		btnClienteHosp.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VclientesHospedados cHospedados = new VclientesHospedados();
-				cHospedados.setVisible(true);
-				dispose();
-			}
-		});
-		btnClienteHosp.setBounds(69, 349, 151, 50);
-		contentPane.add(btnClienteHosp);
-		
-		JButton btnComentarioHotel = new JButton("COMENTARIOS H.");
-		btnComentarioHotel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VcomentarioHoteles cHoteles = new VcomentarioHoteles();
-				cHoteles.setVisible(true);
-				dispose();
-			}
-		});
-		btnComentarioHotel.setBounds(230, 349, 150, 50);
-		contentPane.add(btnComentarioHotel);
-		
-		JButton btnGestionarHotel = new JButton("GESTIONAR HOTELES");
-		btnGestionarHotel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				VcrudHoteles cHotel = new VcrudHoteles(empleadoLogeado);
-				cHotel.setVisible(true);
-				dispose();
-			}
-		});
-		btnGestionarHotel.setBounds(391, 349, 151, 50);
-		contentPane.add(btnGestionarHotel);
-		
-		JButton btnHabitacionesLibres = new JButton("VER HABITACIONES LIBRES");
-		btnHabitacionesLibres.addMouseListener(new MouseAdapter() {
+		JLabel lblHabitacionesLibres = new JLabel("");
+		lblHabitacionesLibres.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				VhabitacionesLibres hLibres = new VhabitacionesLibres();
@@ -98,11 +50,13 @@ public class Vempleado extends JFrame {
 				dispose();
 			}
 		});
-		btnHabitacionesLibres.setBounds(69, 288, 230, 50);
-		contentPane.add(btnHabitacionesLibres);
+		lblHabitacionesLibres.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/room_icon_144154.png")));
+		lblHabitacionesLibres.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHabitacionesLibres.setBounds(192, 314, 72, 72);
+		contentPane.add(lblHabitacionesLibres);
 		
-		JButton btnGestionarHabitacion = new JButton("GESTIONAR HABITACIONES");
-		btnGestionarHabitacion.addMouseListener(new MouseAdapter() {
+		JLabel lblGestionarHabitacion = new JLabel("");
+		lblGestionarHabitacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				VcrudHabitaciones cHab = new VcrudHabitaciones(empleadoLogeado);
@@ -110,11 +64,55 @@ public class Vempleado extends JFrame {
 				dispose();
 			}
 		});
-		btnGestionarHabitacion.setBounds(309, 288, 232, 50);
-		contentPane.add(btnGestionarHabitacion);
+		lblGestionarHabitacion.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/management_settings_icon_152229.png")));
+		lblGestionarHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGestionarHabitacion.setBounds(271, 314, 72, 72);
+		contentPane.add(lblGestionarHabitacion);
 		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.addMouseListener(new MouseAdapter() {
+		JLabel lblClientesHospedados = new JLabel("");
+		lblClientesHospedados.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VclientesHospedados cHospedados = new VclientesHospedados();
+				cHospedados.setVisible(true);
+				dispose();
+			}
+		});
+		lblClientesHospedados.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/users_group_customers_clients_icon-icons.com_72448.png")));
+		lblClientesHospedados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClientesHospedados.setBounds(353, 314, 72, 72);
+		contentPane.add(lblClientesHospedados);
+		
+		JLabel lblComentarioHotel = new JLabel("");
+		lblComentarioHotel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VcomentarioHoteles cHoteles = new VcomentarioHoteles();
+				cHoteles.setVisible(true);
+				dispose();
+			}
+		});
+		lblComentarioHotel.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/comments_alt_icon_125319.png")));
+		lblComentarioHotel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblComentarioHotel.setBounds(435, 314, 72, 72);
+		contentPane.add(lblComentarioHotel);
+		
+		JLabel lblGestionarHotel = new JLabel("");
+		lblGestionarHotel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VcrudHoteles cHotel = new VcrudHoteles(empleadoLogeado);
+				cHotel.setVisible(true);
+				dispose();
+			}
+		});
+		lblGestionarHotel.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/hotel-signal-of-capital-letter_icon-icons.com_70710.png")));
+		lblGestionarHotel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGestionarHotel.setBounds(517, 314, 72, 72);
+		contentPane.add(lblGestionarHotel);
+		
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Vlogin login = new Vlogin();
@@ -122,12 +120,37 @@ public class Vempleado extends JFrame {
 				dispose();
 			}
 		});
-		btnAtras.setBounds(503, 11, 86, 24);
-		contentPane.add(btnAtras);
+		lblAtras.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(750, 11, 32, 32);
+		contentPane.add(lblAtras);
+		
+	}
+	
+	public void CargarInterfazGrafica() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 806, 450);
+		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.info);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+		
+		JLabel lblGestionEmpleado = new JLabel("GESTOR DEL EMPLEADO");
+		lblGestionEmpleado.setBounds(154, 11, 473, 60);
+		lblGestionEmpleado.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblGestionEmpleado.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblGestionEmpleado);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(69, 82, 473, 195);
+		panel.setBounds(69, 82, 636, 222);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 616, 200);
+		panel.add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
@@ -135,6 +158,6 @@ public class Vempleado extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		panel.add(table);
+		scrollPane.setViewportView(table);
 	}
 }
