@@ -31,6 +31,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class VcrudHabitaciones extends JFrame {
 
@@ -63,6 +64,7 @@ public class VcrudHabitaciones extends JFrame {
 		lblInsertar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				if(gestionHabitaciones.insertar(
 						new Habitacion(
 								txtTipoHabitacion.getText(),
@@ -80,12 +82,12 @@ public class VcrudHabitaciones extends JFrame {
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Error al insertar la habitación");
-				};
+				}
 			}
 		});
 		lblInsertar.setIcon(new ImageIcon(VcrudHabitaciones.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
 		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInsertar.setBounds(40, 333, 64, 64);
+		lblInsertar.setBounds(26, 345, 64, 64);
 		contentPane.add(lblInsertar);
 		
 		JLabel lblEliminar = new JLabel("");
@@ -120,7 +122,7 @@ public class VcrudHabitaciones extends JFrame {
 		});
 		lblEliminar.setIcon(new ImageIcon(VcrudHabitaciones.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminar.setBounds(286, 333, 64, 64);
+		lblEliminar.setBounds(266, 345, 64, 64);
 		contentPane.add(lblEliminar);
 		
 		JLabel lblAtras = new JLabel("");
@@ -164,16 +166,16 @@ public class VcrudHabitaciones extends JFrame {
 		});
 		lblMidificar.setIcon(new ImageIcon(VcrudHabitaciones.class.getResource("/Imagenes/modif.png")));
 		lblMidificar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMidificar.setBounds(150, 337, 64, 64);
+		lblMidificar.setBounds(150, 345, 64, 64);
 		contentPane.add(lblMidificar);
 
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 450);
+		setBounds(100, 100, 750, 500);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -192,12 +194,12 @@ public class VcrudHabitaciones extends JFrame {
 		contentPane.add(lblTablaHabitacion);
 		
 		JPanel pnlTablaHabitaciones = new JPanel();
-		pnlTablaHabitaciones.setBounds(374, 50, 350, 350);
+		pnlTablaHabitaciones.setBounds(374, 50, 350, 400);
 		contentPane.add(pnlTablaHabitaciones);
 		pnlTablaHabitaciones.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 330, 328);
+		scrollPane.setBounds(10, 11, 330, 378);
 		pnlTablaHabitaciones.add(scrollPane);
 		
 		table = new JTable();
@@ -247,6 +249,42 @@ public class VcrudHabitaciones extends JFrame {
 		JLabel lblNewLabel = new JLabel("HOTEL");
 		lblNewLabel.setBounds(30, 308, 49, 14);
 		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_2 = new JLabel("INSERTAR");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setBounds(3, 408, 109, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("HABITACI\u00D3N");
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setBounds(3, 420, 109, 14);
+		contentPane.add(lblNewLabel_2_1);
+		
+		JLabel lblNewLabel_2_2 = new JLabel("MODIFICAR");
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2.setBounds(122, 408, 109, 14);
+		contentPane.add(lblNewLabel_2_2);
+		
+		JLabel lblNewLabel_2_3 = new JLabel("DATOS");
+		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_3.setBounds(122, 420, 109, 14);
+		contentPane.add(lblNewLabel_2_3);
+		
+		JLabel lblNewLabel_2_4 = new JLabel("ELIMINAR");
+		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_4.setBounds(241, 408, 109, 14);
+		contentPane.add(lblNewLabel_2_4);
+		
+		JLabel lblNewLabel_2_5 = new JLabel("HABITACI\u00D3N");
+		lblNewLabel_2_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_5.setBounds(241, 420, 109, 14);
+		contentPane.add(lblNewLabel_2_5);
 		
 		
 		comboBox = new JComboBox();		

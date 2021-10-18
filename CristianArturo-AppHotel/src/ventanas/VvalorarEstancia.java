@@ -13,6 +13,7 @@ import datos.Valoracion;
 import modelo.ValoracionDAO;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.JSpinner;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class VvalorarEstancia extends JFrame {
 
@@ -46,6 +48,12 @@ public class VvalorarEstancia extends JFrame {
 		
 		txtHotel.setText(reserva.getHotel());
 		
+		JLabel lblNewLabel = new JLabel("CONFIRMAR");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(167, 434, 96, 14);
+		contentPane.add(lblNewLabel);
+		
 	}
 	
 	public void CargarInterfazGrafica() {
@@ -53,7 +61,7 @@ public class VvalorarEstancia extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 520);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -84,11 +92,11 @@ public class VvalorarEstancia extends JFrame {
 		contentPane.add(txtComentario);
 		
 		JLabel lblValoracion = new JLabel("VALORACION");
-		lblValoracion.setBounds(47, 276, 120, 30);
+		lblValoracion.setBounds(47, 250, 120, 30);
 		contentPane.add(lblValoracion);
 		
 		JSpinner txtValoracion = new JSpinner();
-		txtValoracion.setBounds(167, 281, 200, 20);
+		txtValoracion.setBounds(167, 255, 200, 20);
 		contentPane.add(txtValoracion);
 		
 		JLabel lblAtras = new JLabel("");
@@ -110,19 +118,25 @@ public class VvalorarEstancia extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				gestionValoracion.insertar(
-						new Valoracion(
-								reserva.getNumReserva(),
-								txtComentario.getText(),
-								Integer.parseInt(txtValoracion.getValue().toString())
-								));
-				
-				
+				if(!txtComentario.getText().equals("") || !txtValoracion.getValue().equals("")) {
+					
+					gestionValoracion.insertar(
+							new Valoracion(
+									reserva.getNumReserva(),
+									txtComentario.getText(),
+									Integer.parseInt(txtValoracion.getValue().toString())
+									));
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+				}
+								
 			}
 		});
 		lblConfirmar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cnfirmar_96.png")));
 		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConfirmar.setBounds(271, 335, 96, 96);
+		lblConfirmar.setBounds(167, 327, 96, 96);
 		contentPane.add(lblConfirmar);
 	}
 }

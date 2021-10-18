@@ -26,6 +26,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 
 public class VhabitacionesLibres extends JFrame {
@@ -58,7 +59,7 @@ public class VhabitacionesLibres extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

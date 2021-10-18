@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class VregistrarCliente extends JFrame {
 
@@ -52,7 +53,8 @@ public class VregistrarCliente extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VregistrarCliente.class.getResource("/Imagenes/hoteles.png")));
 		
 		CargarInterfazGrafica();
-		gestionClientes = new ClienteDAO();		
+		gestionClientes = new ClienteDAO();	
+		clienteLogeado = null;
 		
 	}
 	
@@ -75,59 +77,59 @@ public class VregistrarCliente extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 451, 652);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		
 		JLabel lblNombre = new JLabel("NOMBRE");
-		lblNombre.setBounds(58, 281, 120, 30);
+		lblNombre.setBounds(58, 211, 120, 30);
 		contentPane.add(lblNombre);
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(178, 286, 200, 20);
+		txtNombre.setBounds(178, 216, 200, 20);
 		contentPane.add(txtNombre);
 		
 		JLabel lblApellido = new JLabel("APELLIDO");
-		lblApellido.setBounds(58, 322, 120, 30);
+		lblApellido.setBounds(58, 252, 120, 30);
 		contentPane.add(lblApellido);
 		
 		txtApellido = new JTextField();
 		txtApellido.setColumns(10);
-		txtApellido.setBounds(178, 327, 200, 20);
+		txtApellido.setBounds(178, 257, 200, 20);
 		contentPane.add(txtApellido);
 		
 		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(58, 363, 120, 30);
+		lblDni.setBounds(58, 293, 120, 30);
 		contentPane.add(lblDni);
 		
 		txtDni = new JTextField();
 		txtDni.setColumns(10);
-		txtDni.setBounds(178, 368, 200, 20);
+		txtDni.setBounds(178, 298, 200, 20);
 		contentPane.add(txtDni);
 		
 		JLabel lblFechaNacimiento = new JLabel("FECHA DE NACIMIENTO");
-		lblFechaNacimiento.setBounds(58, 404, 120, 30);
+		lblFechaNacimiento.setBounds(58, 334, 120, 30);
 		contentPane.add(lblFechaNacimiento);
 		
 		JLabel lblContraseña = new JLabel("CONTRASE\u00D1A");
-		lblContraseña.setBounds(58, 479, 120, 25);
+		lblContraseña.setBounds(58, 409, 120, 25);
 		contentPane.add(lblContraseña);
 		
 		txtContraseña = new JTextField();
 		txtContraseña.setColumns(10);
-		txtContraseña.setBounds(178, 484, 200, 20);
+		txtContraseña.setBounds(178, 414, 200, 20);
 		contentPane.add(txtContraseña);
 		
 		dtFechaNacimiento = new JDateChooser();
 		dtFechaNacimiento.setDateFormatString("yyyy-MM-dd");
-		dtFechaNacimiento.setBounds(178, 410, 200, 20);
+		dtFechaNacimiento.setBounds(178, 340, 200, 20);
 		contentPane.add(dtFechaNacimiento);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(178, 451, 200, 20);
+		txtUsuario.setBounds(178, 381, 200, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
@@ -138,7 +140,7 @@ public class VregistrarCliente extends JFrame {
 		contentPane.add(lblCliente);
 		
 		JLabel lblNewLabel = new JLabel("USUARIO");
-		lblNewLabel.setBounds(58, 454, 49, 14);
+		lblNewLabel.setBounds(58, 384, 49, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblCancelar = new JLabel("");
@@ -151,7 +153,7 @@ public class VregistrarCliente extends JFrame {
 			}
 		});
 		lblCancelar.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/Cancelar_96.png")));
-		lblCancelar.setBounds(58, 515, 96, 96);
+		lblCancelar.setBounds(58, 457, 96, 96);
 		contentPane.add(lblCancelar);
 		
 		JLabel lblConfirmar = new JLabel("");
@@ -159,7 +161,7 @@ public class VregistrarCliente extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				if(clienteLogeado != null) {
+				if(clienteLogeado == null) {
 					
 					if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
 							   !txtDni.getText().equals("") || !dtFechaNacimiento.getDate().toString().equals("") ||
@@ -168,11 +170,13 @@ public class VregistrarCliente extends JFrame {
 							{
 								
 								try {
+									clienteLogeado = new Cliente();
 									
 									clienteLogeado.setNombre(txtNombre.getText());
 									clienteLogeado.setApellidos(txtApellido.getText());
 									clienteLogeado.setDNI(txtDni.getText());
 									clienteLogeado.setFecha_nac(convertirFecha(dtFechaNacimiento));
+									clienteLogeado.setImagen("url:");
 									clienteLogeado.setUsuario(txtUsuario.getText());
 									clienteLogeado.setContraseña(txtContraseña.getText());
 									
@@ -180,7 +184,9 @@ public class VregistrarCliente extends JFrame {
 									JOptionPane.showMessageDialog(null, "Error al crear un cliente");
 								}
 								
-								if(clienteLogeado != null && gestionClientes.modificar(clienteLogeado)) {
+								if(clienteLogeado != null && gestionClientes.insertar(clienteLogeado)) {
+									
+									clienteLogeado = ClienteDAO.obtenerClientePorUsuario(clienteLogeado.getUsuario());
 									
 									Vcliente ventanaCliente = new Vcliente(clienteLogeado);
 									ventanaCliente.setVisible(true);
@@ -239,7 +245,7 @@ public class VregistrarCliente extends JFrame {
 		});
 		lblConfirmar.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/Cnfirmar_96.png")));
 		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConfirmar.setBounds(282, 515, 96, 96);
+		lblConfirmar.setBounds(282, 457, 96, 96);
 		contentPane.add(lblConfirmar);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
@@ -248,16 +254,17 @@ public class VregistrarCliente extends JFrame {
 		lblNewLabel_1.setBounds(154, 72, 128, 128);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
+		JLabel lblNewLabel_2 = new JLabel("CANCELAR REGISTRO");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/NuevoCliente_64.png")));
-		lblNewLabel_2.setBounds(178, 203, 72, 72);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setBounds(32, 552, 153, 14);
 		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("CONFIRMAR REGISTRO");
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_1.setBounds(251, 552, 153, 14);
+		contentPane.add(lblNewLabel_2_1);
 		
 	}
 	

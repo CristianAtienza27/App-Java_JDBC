@@ -27,6 +27,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class VmisReservas extends JFrame {
 
@@ -82,8 +83,9 @@ public class VmisReservas extends JFrame {
 						
 					}
 					
-					
-					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Selecciona una reserva");
 				}
 						
 			}
@@ -97,10 +99,12 @@ public class VmisReservas extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				if(table.getSelectedRowCount() != 0) {
+				if(table.getSelectedRow() != -1) {
+					
 					VvalorarEstancia valorarEstancia = new VvalorarEstancia(cliente, miReserva);
 					valorarEstancia.setVisible(true);
 					dispose();
+					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Selecciona una reserva");
@@ -112,13 +116,25 @@ public class VmisReservas extends JFrame {
 		lblValorar.setBounds(237, 422, 128, 128);
 		contentPane.add(lblValorar);
 		
+		JLabel lblNewLabel = new JLabel("CANCELAR RESERVA");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(63, 561, 128, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblValorarReserva = new JLabel("VALORAR RESERVA");
+		lblValorarReserva.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorarReserva.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblValorarReserva.setBounds(237, 561, 128, 14);
+		contentPane.add(lblValorarReserva);
+		
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 600);
+		setBounds(100, 100, 450, 625);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

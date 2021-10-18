@@ -30,6 +30,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 
 public class VreservarHabitacion extends JFrame {
@@ -78,24 +79,30 @@ public class VreservarHabitacion extends JFrame {
 
 				gestionReserva = new ReservaDAO();
 				
-				if(gestionReserva.insertar(
-						new Reserva(
-								cliente.getId(),
-								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
-								convertirFecha(dtFechaIni),
-								convertirFecha(dtFechaFin)
-								))) {
+				if(!dtFechaIni.getDate().equals(null) && !dtFechaFin.getDate().equals(null)) {
 					
-					VmisReservas vMisReservas = new VmisReservas(cliente);
-					vMisReservas.setVisible(true);
-					dispose();
+					if(gestionReserva.insertar(
+							new Reserva(
+									cliente.getId(),
+									HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+									convertirFecha(dtFechaIni),
+									convertirFecha(dtFechaFin)
+									))) {
+						
+						VmisReservas vMisReservas = new VmisReservas(cliente);
+						vMisReservas.setVisible(true);
+						dispose();
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al hacer la reserva");
+					}
 					
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Error al hacer la reserva");
+					JOptionPane.showMessageDialog(null, "Introduce día de entrada y de salida");
 				}
-				
 				
 			}
 		});
@@ -126,6 +133,12 @@ public class VreservarHabitacion extends JFrame {
 		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBuscar.setBounds(328, 91, 64, 64);
 		contentPane.add(lblBuscar);
+		
+		JLabel lblNewLabel = new JLabel("RESERVAR");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(328, 416, 64, 14);
+		contentPane.add(lblNewLabel);
 	
 		//gestionHabitaciones = new HabitacionDAO();
 		//gestionHabitaciones.mostrar(comboBox, getName());
@@ -143,9 +156,9 @@ public class VreservarHabitacion extends JFrame {
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 750, 450);
+		setBounds(100, 100, 750, 480);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

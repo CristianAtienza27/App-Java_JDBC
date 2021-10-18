@@ -29,6 +29,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.SystemColor;
+import java.awt.Color;
 
 
 public class Vlogin extends JFrame {
@@ -63,9 +64,9 @@ public class Vlogin extends JFrame {
 		setForeground(SystemColor.activeCaption);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Vlogin.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 333, 430);
+		setBounds(100, 100, 333, 440);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -154,7 +155,7 @@ public class Vlogin extends JFrame {
 				}
 				catch(Exception ex) 
 				{
-					JOptionPane.showMessageDialog(null, ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Correo/contraseña incorrecta");
 				}
 			}
 		});
@@ -176,5 +177,29 @@ public class Vlogin extends JFrame {
 		lblNuevoCliente.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNuevoCliente.setBounds(121, 191, 72, 72);
 		contentPane.add(lblNuevoCliente);
+		
+		JLabel lblNewLabel = new JLabel("REGISTRAR");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(121, 274, 72, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("NUEVO CLIENTE");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(103, 286, 115, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("ENTRAR");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setBounds(243, 377, 64, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("CANCELAR");
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_1.setBounds(5, 377, 69, 14);
+		contentPane.add(lblNewLabel_2_1);
 	}
 }

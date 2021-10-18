@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
 
 public class Vcliente extends JFrame {
 
@@ -48,6 +49,7 @@ public class Vcliente extends JFrame {
 		gestionClientes.mostrar(tablaCliente, clienteLogeado.getUsuario());
 		
 		JLabel lblAtras = new JLabel("");
+		lblAtras.setBounds(557, 11, 32, 32);
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -60,6 +62,7 @@ public class Vcliente extends JFrame {
 		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblMisRevervas = new JLabel("");
+		lblMisRevervas.setBounds(10, 244, 187, 141);
 		lblMisRevervas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -72,6 +75,7 @@ public class Vcliente extends JFrame {
 		lblMisRevervas.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblReservarHabitacion = new JLabel("");
+		lblReservarHabitacion.setBounds(404, 244, 187, 141);
 		lblReservarHabitacion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -84,6 +88,7 @@ public class Vcliente extends JFrame {
 		lblReservarHabitacion.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/bed_bed_room_sleep_furniture_icon_124423.png")));
 		
 		JLabel lblModificarDatos = new JLabel("");
+		lblModificarDatos.setBounds(207, 244, 187, 141);
 		lblModificarDatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -96,54 +101,40 @@ public class Vcliente extends JFrame {
 		lblModificarDatos.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblImagen = new JLabel("");
+		lblImagen.setBounds(422, 82, 169, 144);
 		lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImagen.setIcon(new ImageIcon(Vcliente.class.getResource("/Imagenes/user_84308.png")));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(89)
-					.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
-					.addGap(56)
-					.addComponent(lblAtras))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(44)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 355, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblImagen, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(5)
-					.addComponent(lblMisRevervas, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblModificarDatos, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(lblReservarHabitacion, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(6)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblCliente, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAtras))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(11)
-							.addComponent(lblImagen, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(23)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblMisRevervas, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblModificarDatos, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblReservarHabitacion, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)))
-		);
+		scrollPane.setBounds(49, 94, 355, 89);
 		
 		scrollPane.setViewportView(tablaCliente);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(lblCliente);
+		contentPane.add(lblAtras);
+		contentPane.add(scrollPane);
+		contentPane.add(lblImagen);
+		contentPane.add(lblMisRevervas);
+		contentPane.add(lblModificarDatos);
+		contentPane.add(lblReservarHabitacion);
+		
+		JLabel lblNewLabel = new JLabel("MIS RESERVAS");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(10, 396, 187, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblModificarDatos_1 = new JLabel("MODIFICAR DATOS");
+		lblModificarDatos_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblModificarDatos_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModificarDatos_1.setBounds(207, 396, 187, 14);
+		contentPane.add(lblModificarDatos_1);
+		
+		JLabel lblReservarHabitacion_1 = new JLabel("RESERVAR HABITACION");
+		lblReservarHabitacion_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblReservarHabitacion_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblReservarHabitacion_1.setBounds(404, 396, 187, 14);
+		contentPane.add(lblReservarHabitacion_1);
 	
 	}
 	
@@ -151,12 +142,13 @@ public class Vcliente extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 615, 460);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		
 		lblCliente = new JLabel("BIENVENIDO CLIENTE");
+		lblCliente.setBounds(94, 11, 407, 60);
 		lblCliente.setBackground(SystemColor.text);
 		lblCliente.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCliente.setFont(new Font("Tahoma", Font.BOLD, 18));

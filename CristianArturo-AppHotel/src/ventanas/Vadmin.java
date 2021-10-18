@@ -34,6 +34,7 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class Vadmin extends JFrame {
 
@@ -64,13 +65,49 @@ public class Vadmin extends JFrame {
 		gestionHoteles.mostrar(comboBox, null);
 		gestionEmpleados.mostrar(table, null);
 		
+		JLabel lblNewLabel_2 = new JLabel("INSERTAR");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setBounds(50, 430, 109, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("EMPLEADO");
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setBounds(50, 442, 109, 14);
+		contentPane.add(lblNewLabel_2_1);
+		
+		JLabel lblNewLabel_2_2 = new JLabel("MODIFICAR");
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2.setBounds(169, 430, 109, 14);
+		contentPane.add(lblNewLabel_2_2);
+		
+		JLabel lblNewLabel_2_3 = new JLabel("DATOS");
+		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_3.setBounds(169, 442, 109, 14);
+		contentPane.add(lblNewLabel_2_3);
+		
+		JLabel lblNewLabel_2_4 = new JLabel("ELIMINAR");
+		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_4.setBounds(288, 430, 109, 14);
+		contentPane.add(lblNewLabel_2_4);
+		
+		JLabel lblNewLabel_2_5 = new JLabel("EMPLEADO");
+		lblNewLabel_2_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_5.setBounds(288, 442, 109, 14);
+		contentPane.add(lblNewLabel_2_5);
+		
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1189, 569);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -113,7 +150,7 @@ public class Vadmin extends JFrame {
 		JLabel lblEmpleado = new JLabel("DATOS DE EMPLEADO");
 		lblEmpleado.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblEmpleado.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmpleado.setBounds(30, 11, 320, 37);
+		lblEmpleado.setBounds(30, 11, 403, 37);
 		contentPane.add(lblEmpleado);
 		
 		JLabel lblNombre = new JLabel("NOMBRE");
@@ -192,30 +229,45 @@ public class Vadmin extends JFrame {
 		lblInsertar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(gestionEmpleados.insertar(
-						new Empleado(
-								txtNombre.getText(),
-								txtApellido.getText(),
-								txtDni.getText(),
-								convertirFecha(dtFechaNacimiento),
-								txtPoblacion.getText(),
-								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
-								txtUsuario.getText(),
-								txtContraseña.getText()
-								))) 
+				
+				if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
+				   !txtDni.getText().equals("") || !txtPoblacion.getText().equals("") || 
+				   !txtUsuario.getText().equals("") || !txtContraseña.getText().equals("") ||
+				   dtFechaNacimiento.getCalendar() != null)
 				{
-					gestionEmpleados.mostrar(table, null);
+					
+					if(gestionEmpleados.insertar(
+							new Empleado(
+									txtNombre.getText(),
+									txtApellido.getText(),
+									txtDni.getText(),
+									convertirFecha(dtFechaNacimiento),
+									txtPoblacion.getText(),
+									HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+									txtUsuario.getText(),
+									txtContraseña.getText()
+									))) 
+					{
+						Limpiar();
+						gestionEmpleados.mostrar(table, null);
+						
+					}
+					else 
+					{
+						JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+					}
 					
 				}
-				else 
+				else
 				{
-					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
 				}
+				
 			}
 		});
 		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblInsertar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
-		lblInsertar.setBounds(30, 438, 64, 64);
+		lblInsertar.setBounds(50, 335, 109, 109);
 		contentPane.add(lblInsertar);
 		
 		JLabel lblModificar = new JLabel("");
@@ -223,31 +275,44 @@ public class Vadmin extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				if(	gestionEmpleados.modificar(
-						new Empleado(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
-								txtNombre.getText(),
-								txtApellido.getText(),
-								txtDni.getText(),
-								convertirFecha(dtFechaNacimiento),
-								txtPoblacion.getText(),
-								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
-								txtUsuario.getText(),
-								txtContraseña.getText()
-								))) 
+				if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
+						   !txtDni.getText().equals("") || !txtPoblacion.getText().equals("") ||
+						   !txtUsuario.getText().equals("") || !txtContraseña.getText().equals("") ||
+						   dtFechaNacimiento.getCalendar() != null)
 				{
-					//Limpiar
-					gestionEmpleados.mostrar(table, null);
+					
+					if(	gestionEmpleados.modificar(
+							new Empleado(
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+									txtNombre.getText(),
+									txtApellido.getText(),
+									txtDni.getText(),
+									convertirFecha(dtFechaNacimiento),
+									txtPoblacion.getText(),
+									HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+									txtUsuario.getText(),
+									txtContraseña.getText()
+									))) 
+					{
+						//Limpiar
+						Limpiar();
+						gestionEmpleados.mostrar(table, null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+					}
+					
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
-				};
+					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+				}
+				
 				
 			}
 		});
 		lblModificar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/modif.png")));
 		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblModificar.setBounds(150, 441, 64, 64);
+		lblModificar.setBounds(169, 335, 109, 109);
 		contentPane.add(lblModificar);
 		
 		
@@ -257,17 +322,26 @@ public class Vadmin extends JFrame {
 		lblEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(gestionEmpleados.eliminar(
-						new Empleado(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString())))
-						) 
-				{
-					//Limpiar
-					gestionEmpleados.mostrar(table, null);
+				
+				if(table.getSelectedRow() != -1) {
+					
+					if(gestionEmpleados.eliminar(
+							new Empleado(
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString())))
+							) 
+					{
+						//Limpiar
+						Limpiar();
+						gestionEmpleados.mostrar(table, null);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al eliminar un registro");
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Error al eliminar un registro");
+					JOptionPane.showMessageDialog(null, "Selecciona un registro");
 				}
+				
 			}
 		});
 		
@@ -276,7 +350,7 @@ public class Vadmin extends JFrame {
 		
 		lblEliminar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminar.setBounds(276, 438, 64, 64);
+		lblEliminar.setBounds(288, 335, 109, 109);
 		contentPane.add(lblEliminar);
 		
 		JLabel lblAtras = new JLabel("");
@@ -302,5 +376,15 @@ public class Vadmin extends JFrame {
 		
 		return año + "-" + mes + "-" + dia;
 		
+	}
+	
+	public void Limpiar() {
+		txtNombre.setText("");
+		txtApellido.setText("");
+		txtDni.setText("");
+		dtFechaNacimiento.setDate(null);
+		txtPoblacion.setText("");
+		txtUsuario.setText("");
+		txtContraseña.setText("");
 	}
 }

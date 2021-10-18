@@ -31,6 +31,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class VcrudHoteles extends JFrame {
 
@@ -57,6 +58,12 @@ public class VcrudHoteles extends JFrame {
 	private JLabel lblAtras;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_2_1;
+	private JLabel lblNewLabel_2_2;
+	private JLabel lblNewLabel_2_3;
+	private JLabel lblNewLabel_2_4;
 
 	/**
 	 * Create the frame.
@@ -70,13 +77,49 @@ public class VcrudHoteles extends JFrame {
 		gestionHoteles = new HotelDAO();
 		gestionHoteles.mostrar(table, null);
 		
+		lblNewLabel = new JLabel("INSERTAR");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(10, 434, 109, 14);
+		contentPane.add(lblNewLabel);
+		
+		lblNewLabel_2 = new JLabel("HOTEL");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setBounds(10, 446, 109, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		lblNewLabel_2_1 = new JLabel("MODIFICAR");
+		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_1.setBounds(129, 434, 109, 14);
+		contentPane.add(lblNewLabel_2_1);
+		
+		lblNewLabel_2_2 = new JLabel("DATOS");
+		lblNewLabel_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_2.setBounds(129, 446, 109, 14);
+		contentPane.add(lblNewLabel_2_2);
+		
+		lblNewLabel_2_3 = new JLabel("ELIMINAR");
+		lblNewLabel_2_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_3.setBounds(248, 434, 109, 14);
+		contentPane.add(lblNewLabel_2_3);
+		
+		lblNewLabel_2_4 = new JLabel("HOTEL");
+		lblNewLabel_2_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2_4.setBounds(248, 446, 109, 14);
+		contentPane.add(lblNewLabel_2_4);
+		
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 810, 500);
+		setBounds(100, 100, 810, 550);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
@@ -93,7 +136,7 @@ public class VcrudHoteles extends JFrame {
 		lblTablaHotel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		pnlTablaHotel = new JPanel();
-		pnlTablaHotel.setBounds(374, 50, 403, 368);
+		pnlTablaHotel.setBounds(374, 50, 403, 450);
 		pnlTablaHotel.setLayout(null);
 		
 		txtNombre = new JTextField();
@@ -151,7 +194,7 @@ public class VcrudHoteles extends JFrame {
 		contentPane.add(pnlTablaHotel);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 383, 346);
+		scrollPane.setBounds(10, 11, 383, 428);
 		pnlTablaHotel.add(scrollPane);
 		
 		table = new JTable();
@@ -171,26 +214,37 @@ public class VcrudHoteles extends JFrame {
 		lblInsertar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(gestionHoteles.insertar(
-						new Hotel(
-								txtNombre.getText(),
-								txtDescripcion.getText(),
-								txtCiudad.getText(),
-								txtDireccion.getText(),
-								txtTelefono.getText()
-								)))
-				{					
-					gestionHoteles.mostrar(table, null);
-					Limpiar();		
+				
+				if(!txtNombre.getText().equals("") || !txtDescripcion.getText().equals("") ||
+				   !txtCiudad.getText().equals("") || !txtDireccion.getText().equals("") ||
+				   !txtTelefono.getText().equals(""))
+				{
+					
+					if(gestionHoteles.insertar(
+							new Hotel(
+									txtNombre.getText(),
+									txtDescripcion.getText(),
+									txtCiudad.getText(),
+									txtDireccion.getText(),
+									txtTelefono.getText()
+									)))
+					{					
+						gestionHoteles.mostrar(table, null);
+						Limpiar();		
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al insertar el hotel");
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al insertar el hotel");
-				}
+			
 			}
 		});
 		lblInsertar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
 		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInsertar.setBounds(30, 351, 99, 99);
+		lblInsertar.setBounds(20, 351, 99, 99);
 		contentPane.add(lblInsertar);
 		
 		lblModificar = new JLabel("");
@@ -198,24 +252,34 @@ public class VcrudHoteles extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				if(gestionHoteles.modificar(
-						new Hotel(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
-								txtNombre.getText(),
-								txtCiudad.getText(),
-								txtDescripcion.getText(),
-								txtDireccion.getText(),
-								txtTelefono.getText()
-								))) 
+				if(!txtNombre.getText().equals("") || !txtDescripcion.getText().equals("") ||
+				   !txtCiudad.getText().equals("") || !txtDireccion.getText().equals("") ||
+				   !txtTelefono.getText().equals(""))
 				{
 					
-					gestionHoteles.mostrar(table, null);
-					Limpiar();
-					
+					if(gestionHoteles.modificar(
+							new Hotel(
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+									txtNombre.getText(),
+									txtCiudad.getText(),
+									txtDescripcion.getText(),
+									txtDireccion.getText(),
+									txtTelefono.getText()
+									))) 
+					{
+						
+						gestionHoteles.mostrar(table, null);
+						Limpiar();
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al modificar");
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Error al modificar");
+					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
 				}
+				
 				
 			}
 		});
@@ -229,23 +293,28 @@ public class VcrudHoteles extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				if(gestionHoteles.eliminar(
-						new Hotel(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()))))
-				{
-					gestionHoteles.mostrar(table, null);
-					Limpiar();
+				if(table.getSelectedRow() != -1) {
+					
+					if(gestionHoteles.eliminar(
+							new Hotel(
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()))))
+					{
+						gestionHoteles.mostrar(table, null);
+						Limpiar();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al eliminar");
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona un registro");
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al eliminar");
-				}
-				
-				
+			
 			}
 		});
 		lblEliminar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminar.setBounds(248, 351, 99, 99);
+		lblEliminar.setBounds(251, 351, 99, 99);
 		contentPane.add(lblEliminar);
 		
 		lblAtras = new JLabel("");

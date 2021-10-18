@@ -22,6 +22,7 @@ import java.awt.Toolkit;
 import java.awt.SystemColor;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+import java.awt.Color;
 
 public class Vempleado extends JFrame {
 
@@ -52,7 +53,7 @@ public class Vempleado extends JFrame {
 		});
 		lblHabitacionesLibres.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/room_icon_144154.png")));
 		lblHabitacionesLibres.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHabitacionesLibres.setBounds(192, 314, 72, 72);
+		lblHabitacionesLibres.setBounds(69, 315, 72, 72);
 		contentPane.add(lblHabitacionesLibres);
 		
 		JLabel lblGestionarHabitacion = new JLabel("");
@@ -66,7 +67,7 @@ public class Vempleado extends JFrame {
 		});
 		lblGestionarHabitacion.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/management_settings_icon_152229.png")));
 		lblGestionarHabitacion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGestionarHabitacion.setBounds(271, 314, 72, 72);
+		lblGestionarHabitacion.setBounds(220, 315, 72, 72);
 		contentPane.add(lblGestionarHabitacion);
 		
 		JLabel lblClientesHospedados = new JLabel("");
@@ -94,7 +95,7 @@ public class Vempleado extends JFrame {
 		});
 		lblComentarioHotel.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/comments_alt_icon_125319.png")));
 		lblComentarioHotel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblComentarioHotel.setBounds(435, 314, 72, 72);
+		lblComentarioHotel.setBounds(489, 315, 72, 72);
 		contentPane.add(lblComentarioHotel);
 		
 		JLabel lblGestionarHotel = new JLabel("");
@@ -108,7 +109,7 @@ public class Vempleado extends JFrame {
 		});
 		lblGestionarHotel.setIcon(new ImageIcon(Vempleado.class.getResource("/Imagenes/hotel-signal-of-capital-letter_icon-icons.com_70710.png")));
 		lblGestionarHotel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGestionarHotel.setBounds(517, 314, 72, 72);
+		lblGestionarHotel.setBounds(633, 315, 72, 72);
 		contentPane.add(lblGestionarHotel);
 		
 		JLabel lblAtras = new JLabel("");
@@ -125,13 +126,73 @@ public class Vempleado extends JFrame {
 		lblAtras.setBounds(750, 11, 32, 32);
 		contentPane.add(lblAtras);
 		
+		JLabel lblNewLabel = new JLabel("HABITACIONES");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(46, 398, 115, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblLibres = new JLabel("LIBRES");
+		lblLibres.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblLibres.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLibres.setBounds(46, 412, 115, 14);
+		contentPane.add(lblLibres);
+		
+		JLabel lblGestionar = new JLabel("GESTIONAR");
+		lblGestionar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblGestionar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGestionar.setBounds(199, 398, 115, 14);
+		contentPane.add(lblGestionar);
+		
+		JLabel lblNewLabel_3 = new JLabel("HABITACIONES");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setBounds(199, 412, 115, 14);
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblClientes = new JLabel("CLIENTES");
+		lblClientes.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblClientes.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClientes.setBounds(334, 397, 115, 14);
+		contentPane.add(lblClientes);
+		
+		JLabel lblHospedados = new JLabel("HOSPEDADOS");
+		lblHospedados.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblHospedados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHospedados.setBounds(334, 412, 115, 14);
+		contentPane.add(lblHospedados);
+		
+		JLabel lblComentarios = new JLabel("COMENTARIOS");
+		lblComentarios.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblComentarios.setHorizontalAlignment(SwingConstants.CENTER);
+		lblComentarios.setBounds(470, 398, 115, 14);
+		contentPane.add(lblComentarios);
+		
+		JLabel lblDelHotel = new JLabel("DEL HOTEL");
+		lblDelHotel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDelHotel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDelHotel.setBounds(470, 412, 115, 14);
+		contentPane.add(lblDelHotel);
+		
+		JLabel lblGestionar_1 = new JLabel("GESTIONAR");
+		lblGestionar_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblGestionar_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGestionar_1.setBounds(610, 398, 115, 14);
+		contentPane.add(lblGestionar_1);
+		
+		JLabel lblHoteles = new JLabel("HOTELES");
+		lblHoteles.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblHoteles.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHoteles.setBounds(610, 412, 115, 14);
+		contentPane.add(lblHoteles);
+		
 	}
 	
 	public void CargarInterfazGrafica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 806, 450);
+		setBounds(100, 100, 806, 500);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.info);
+		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

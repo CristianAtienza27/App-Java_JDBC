@@ -279,37 +279,6 @@ public class ReservaDAO implements ICrud{
 		tabla.setModel(modelo);
 	}
 	
-	private String obtenerHoraReserva(int numReserva) {
-		
-		Conexion con = new Conexion();
-		
-		String horaReserva = null;
-		
-		try {
-			
-			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT fechaReserva FROM treserva WHERE idReserva = ?"));
-			
-			con.getStmt().setInt(1, numReserva);
-			
-			con.setRs();
-			
-			while(con.getRs().next()) {
-				horaReserva = con.getRs().getString(1);
-			}
-				
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-		finally {
-			con.cerrarStmt();
-			con.cerrarRs();
-			con.cerrarCon();
-		}
-		
-		return horaReserva;
-	}
-	
 	public boolean calcularPlazo24hr(int numReserva) {
 		
 		String fechaReserva = obtenerHoraReserva(numReserva);
@@ -343,5 +312,37 @@ public class ReservaDAO implements ICrud{
         }
 	
 	}
+	
+	private String obtenerHoraReserva(int numReserva) {
+		
+		Conexion con = new Conexion();
+		
+		String horaReserva = null;
+		
+		try {
+			
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT fechaReserva FROM treserva WHERE idReserva = ?"));
+			
+			con.getStmt().setInt(1, numReserva);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				horaReserva = con.getRs().getString(1);
+			}
+				
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		return horaReserva;
+	}
+	
 	
 }
