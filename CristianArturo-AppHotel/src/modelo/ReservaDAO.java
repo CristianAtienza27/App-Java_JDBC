@@ -1,6 +1,12 @@
 package modelo;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -23,8 +29,8 @@ public class ReservaDAO implements ICrud{
 			Reserva reserva = (Reserva)obj;
 			
 			con.setStmt(con.getConnection()
-					.prepareStatement("INSERT INTO `treserva`(`IdCliente`, `numHabitacion`, `idHotel`, `fechaIni`, `fechaFin`) "
-							+ "VALUES (?, ?, ?, '" + reserva.getFechaIni() + "' , '" + reserva.getFechaFin() + "' )"));
+					.prepareStatement("INSERT INTO `treserva`(`IdCliente`, `numHabitacion`, `idHotel`, `fechaIni`, `fechaFin`,`fechaReserva`) "
+							+ "VALUES (?, ?, ?, '" + reserva.getFechaIni() + "' , '" + reserva.getFechaFin() + "','" + reserva.getFechaReserva() + "')"));
 			
 			con.getStmt().setInt(1, reserva.getIdCliente());
 			con.getStmt().setInt(2, reserva.getNumHabitacion());
@@ -92,20 +98,33 @@ public class ReservaDAO implements ICrud{
 	@Override
 	public boolean eliminar(Object obj) {
 		
+		Reserva reserva = null;
+		
 		Conexion con = new Conexion();
 		
 		try {
 			
-			Reserva reserva = (Reserva)obj;
+			reserva = (Reserva)obj;
 			
-			con.setStmt(con.getConnection()
-					.prepareStatement("DELETE FROM `treserva` WHERE idReserva = ?"));
-			
-			con.getStmt().setInt(1, reserva.getNumReserva());
-			
-			con.getStmt().executeUpdate();
-			
-			JOptionPane.showMessageDialog(null, "Reserva eliminada");
+			if(!calcularPlazo24hr(reserva.getNumReserva())) {
+				
+				con.setStmt(con.getConnection()
+						.prepareStatement("DELETE FROM `treserva` WHERE idReserva = ?"));
+				
+				con.getStmt().setInt(1, reserva.getNumReserva());
+				
+				con.getStmt().executeUpdate();
+				
+				JOptionPane.showMessageDialog(null, "Reserva eliminada");
+				
+			}
+			else {
+				
+				JOptionPane.showMessageDialog(null, "No es posible cancelar despues de 24 horas");
+				
+				return false;
+				
+			}
 			
 			return true;
 			
@@ -223,27 +242,28 @@ public class ReservaDAO implements ICrud{
 		
 		Conexion con = new Conexion();
 		
-		String[] columnNames = {"CLIENTE","Nº HABITACIÓN","HABITACIÓN"};
+		String[] columnNames = {"NOMBRE","APELLIDOS","Nº HABITACIÓN","HABITACIÓN"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 
 		try {
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT TC.nombre, TR.numHabitacion, (SELECT tipo from thabitacion WHERE numHabitacion = TR.numHabitacion) , "
+					.prepareStatement("SELECT TC.nombre ,TC.apellidos, TR.numHabitacion, (SELECT tipo from thabitacion WHERE numHabitacion = TR.numHabitacion) , "
 							+ "(SELECT nombre FROM thotel WHERE idHotel = TR.idHotel) "
 							+ "FROM tcliente TC INNER JOIN treserva TR ON TC.IdCliente = TR.IdCliente "
-							+ "WHERE TR.idHotel = ? AND '2021-09-15' BETWEEN TR.fechaIni AND TR.fechaFin;"));
+							+ "WHERE TR.idHotel = ? AND '" + fecha + "' BETWEEN TR.fechaIni AND TR.fechaFin;"));
 			
 			con.getStmt().setInt(1, idHotel);
-			//con.getStmt().setString(2, fecha);
 			
 			con.setRs();
 			
 			while(con.getRs().next()) {
 				
-				String cliente = con.getRs().getString(1);
-				String habitacion = con.getRs().getString(2);
+				String nombre = con.getRs().getString(1);
+				String apellidos = con.getRs().getString(2);
+				String habitacion = con.getRs().getString(3);
+				String tipoHab = con.getRs().getString(4);
 				
-				modelo.addRow(new Object[] { cliente, habitacion} );
+				modelo.addRow(new Object[] { nombre, apellidos , habitacion, tipoHab} );
 			}
 			
 		} catch (Exception e) {
@@ -258,5 +278,70 @@ public class ReservaDAO implements ICrud{
 		
 		tabla.setModel(modelo);
 	}
+	
+	private String obtenerHoraReserva(int numReserva) {
+		
+		Conexion con = new Conexion();
+		
+		String horaReserva = null;
+		
+		try {
+			
+			con.setStmt(con.getConnection()
+					.prepareStatement("SELECT fechaReserva FROM treserva WHERE idReserva = ?"));
+			
+			con.getStmt().setInt(1, numReserva);
+			
+			con.setRs();
+			
+			while(con.getRs().next()) {
+				horaReserva = con.getRs().getString(1);
+			}
+				
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		finally {
+			con.cerrarStmt();
+			con.cerrarRs();
+			con.cerrarCon();
+		}
+		
+		return horaReserva;
+	}
+	
+	public boolean calcularPlazo24hr(int numReserva) {
+		
+		String fechaReserva = obtenerHoraReserva(numReserva);
+		
+        Date fechaReser = null;
+        Date fechaCancel = null;
+        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        
+        DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
+      
+        try {
+        	
+            fechaReser = formato.parse(fechaReserva);
+            fechaCancel = formato.parse(dtf5.format(LocalDateTime.now())); 
 
+        } catch (ParseException ex) {
+           JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        
+        long dif = fechaReser.getTime() - fechaCancel.getTime();
+                      
+        TimeUnit time = TimeUnit.DAYS; 
+        long diferencia = time.convert(dif, TimeUnit.MILLISECONDS);
+		
+        if(diferencia < -1) {
+        	return true;
+        }
+        else {
+    		return false;
+        }
+	
+	}
+	
 }

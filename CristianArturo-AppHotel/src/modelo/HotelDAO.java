@@ -61,7 +61,7 @@ public class HotelDAO implements ICrud{
 			
 			con.setStmt(con.getConnection()
 					.prepareStatement("UPDATE `thotel` SET `nombre`= ?,`ciudad`= ?,"
-							+ "`descripcion`= ?,`direccion`= ?,`telefono`=' ?"
+							+ "`descripcion`= ?,`direccion`= ?,`telefono`= ? "
 							+ "WHERE idHotel = ?"));
 			
 			con.getStmt().setString(1, hotel.getNombre());
@@ -155,10 +155,11 @@ public class HotelDAO implements ICrud{
 				String nombre = con.getRs().getString(2);
 				String ciudad = con.getRs().getString(3);
 				String descripcion = con.getRs().getString(4);
-				String telefono = con.getRs().getString(5);
+				String direccion = con.getRs().getString(5);
+				String telefono = con.getRs().getString(6);
 				
 				if(salida instanceof JTable) {
-					modelo.addRow(new Object[] {idHotel, nombre, ciudad, descripcion, telefono});
+					modelo.addRow(new Object[] {idHotel, nombre, ciudad, descripcion, direccion, telefono});
 				}
 				else if(salida instanceof JComboBox) {
 					comboBox.addItem(nombre);

@@ -6,6 +6,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import datos.Cliente;
+import datos.Reserva;
+import datos.Valoracion;
+import modelo.ValoracionDAO;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -25,28 +31,24 @@ public class VvalorarEstancia extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtHotel;
 	private JTextField txtComentario;
-	private JTextField txtHabitacion;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VvalorarEstancia frame = new VvalorarEstancia();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private Reserva reserva;
+	private Cliente cliente;
+	private ValoracionDAO gestionValoracion;
 	/**
 	 * Create the frame.
 	 */
-	public VvalorarEstancia() {
+	public VvalorarEstancia(Cliente cliente, Reserva reserva) {
+		
+		CargarInterfazGrafica();
+		this.cliente = cliente;
+		this.reserva = reserva;
+		gestionValoracion = new ValoracionDAO();
+		
+		txtHotel.setText(reserva.getHotel());
+		
+	}
+	
+	public void CargarInterfazGrafica() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VvalorarEstancia.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 520);
@@ -81,29 +83,20 @@ public class VvalorarEstancia extends JFrame {
 		txtComentario.setBounds(167, 171, 200, 68);
 		contentPane.add(txtComentario);
 		
-		JLabel lblHabitacion = new JLabel("HABITACION");
-		lblHabitacion.setBounds(47, 245, 120, 30);
-		contentPane.add(lblHabitacion);
-		
-		txtHabitacion = new JTextField();
-		txtHabitacion.setColumns(10);
-		txtHabitacion.setBounds(167, 250, 200, 20);
-		contentPane.add(txtHabitacion);
-		
 		JLabel lblValoracion = new JLabel("VALORACION");
 		lblValoracion.setBounds(47, 276, 120, 30);
 		contentPane.add(lblValoracion);
 		
-		JSpinner spnValoracion = new JSpinner();
-		spnValoracion.setBounds(167, 281, 200, 20);
-		contentPane.add(spnValoracion);
+		JSpinner txtValoracion = new JSpinner();
+		txtValoracion.setBounds(167, 281, 200, 20);
+		contentPane.add(txtValoracion);
 		
 		JLabel lblAtras = new JLabel("");
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Vcliente cliente = new Vcliente(null);
-				cliente.setVisible(true);
+				Vcliente vCliente = new Vcliente(cliente);
+				vCliente.setVisible(true);
 				dispose();
 			}
 		});
@@ -112,26 +105,24 @@ public class VvalorarEstancia extends JFrame {
 		lblAtras.setBounds(392, 11, 32, 32);
 		contentPane.add(lblAtras);
 		
-		JLabel lblCancelar = new JLabel("");
-		lblCancelar.addMouseListener(new MouseAdapter() {
+		JLabel lblConfirmar = new JLabel("");
+		lblConfirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				gestionValoracion.insertar(
+						new Valoracion(
+								reserva.getNumReserva(),
+								txtComentario.getText(),
+								Integer.parseInt(txtValoracion.getValue().toString())
+								));
+				
+				
 			}
 		});
-		lblCancelar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cancelar_96.png")));
-		lblCancelar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCancelar.setBounds(47, 335, 96, 96);
-		contentPane.add(lblCancelar);
-		
-		JLabel lblEntrar = new JLabel("");
-		lblEntrar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		lblEntrar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cnfirmar_96.png")));
-		lblEntrar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEntrar.setBounds(271, 335, 96, 96);
-		contentPane.add(lblEntrar);
+		lblConfirmar.setIcon(new ImageIcon(VvalorarEstancia.class.getResource("/Imagenes/Cnfirmar_96.png")));
+		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConfirmar.setBounds(271, 335, 96, 96);
+		contentPane.add(lblConfirmar);
 	}
 }

@@ -148,12 +148,26 @@ public class EmpleadoDAO implements ICrud{
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 		
 		try {
-			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario "
-							+ "FROM templeado TE INNER JOIN thotel TH "
-							+ "ON TE.idHotel = TH.idHotel "
-							+ "INNER JOIN tusuario TU "
-							+ "ON TE.usuario = TU.usuario;"));
+			
+			if(iD != null) {
+				con.setStmt(con.getConnection()
+						.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario "
+								+ "FROM templeado TE INNER JOIN thotel TH "
+								+ "ON TE.idHotel = TH.idHotel "
+								+ "INNER JOIN tusuario TU "
+								+ "ON TE.usuario = TU.usuario "
+								+ "WHERE TE.usuario = ?;"));
+				
+				con.getStmt().setString(1, iD);
+			}
+			else {
+				con.setStmt(con.getConnection()
+						.prepareStatement("SELECT te.idEmpleado, te.nombre, te.apellidos, te.DNI, te.fechaNac, te.poblacion, th.nombre, te.usuario "
+								+ "FROM templeado TE INNER JOIN thotel TH "
+								+ "ON TE.idHotel = TH.idHotel "
+								+ "INNER JOIN tusuario TU "
+								+ "ON TE.usuario = TU.usuario "));
+			}
 			
 			con.setRs();
 			

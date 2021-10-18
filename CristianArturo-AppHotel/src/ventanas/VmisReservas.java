@@ -8,10 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import datos.Cliente;
+import datos.Reserva;
 import modelo.ClienteDAO;
+import modelo.HotelDAO;
 import modelo.ReservaDAO;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,6 +33,7 @@ public class VmisReservas extends JFrame {
 	private JPanel contentPane;
 	private Cliente cliente;
 	private ReservaDAO misReservas;
+	private Reserva miReserva;
 	private JTable table;
 
 	/**
@@ -67,8 +71,21 @@ public class VmisReservas extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				
-				
+				if(table.getSelectedRowCount() != 0) {
+					
+					if(misReservas.eliminar(
+							new Reserva(
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()))))
+					{
+						
+						misReservas.mostrar(table, cliente.getUsuario());
+						
+					}
+					
+					
+					
+				}
+						
 			}
 		});
 		lblCancelar.setIcon(new ImageIcon(VmisReservas.class.getResource("/Imagenes/cancelbutton_83661.png")));
@@ -79,9 +96,16 @@ public class VmisReservas extends JFrame {
 		lblValorar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VvalorarEstancia valorarEstancia = new VvalorarEstancia();
-				valorarEstancia.setVisible(true);
-				dispose();
+				
+				if(table.getSelectedRowCount() != 0) {
+					VvalorarEstancia valorarEstancia = new VvalorarEstancia(cliente, miReserva);
+					valorarEstancia.setVisible(true);
+					dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Selecciona una reserva");
+				}
+				
 			}
 		});
 		lblValorar.setIcon(new ImageIcon(VmisReservas.class.getResource("/Imagenes/rate_favoriteapplicationstarratin_calificacion_aplicacionfavorita_2889.png")));
@@ -119,6 +143,19 @@ public class VmisReservas extends JFrame {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				if(table.getSelectedRow() != -1) {
+					
+					miReserva = new Reserva(
+							Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+							table.getValueAt(table.getSelectedRow(), 1).toString()
+							);
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Selecciona una reserva");
+				}
+					
 			}
 		});
 		scrollPane.setViewportView(table);

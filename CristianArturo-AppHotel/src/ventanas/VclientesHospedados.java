@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
+
+import datos.Empleado;
+import modelo.HotelDAO;
+import modelo.ReservaDAO;
+
 import javax.swing.JTable;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
@@ -26,27 +32,24 @@ public class VclientesHospedados extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VclientesHospedados frame = new VclientesHospedados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JComboBox comboBox;
+	private Empleado empleado;
+	private HotelDAO gestionHoteles;
 
 	/**
 	 * Create the frame.
 	 */
-	public VclientesHospedados() {
+	public VclientesHospedados(Empleado empleado) {
+		
+		CargarInterfazGrafica();
+		
+		this.empleado = empleado;
+		gestionHoteles = new HotelDAO();
+		gestionHoteles.mostrar(comboBox, null);
+
+	}
+	
+	public void CargarInterfazGrafica() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VclientesHospedados.class.getResource("/Imagenes/hoteles.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
@@ -85,7 +88,7 @@ public class VclientesHospedados extends JFrame {
 		lblHotel.setBounds(115, 60, 89, 23);
 		contentPane.add(lblHotel);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(214, 60, 89, 22);
 		contentPane.add(comboBox);
 		
@@ -103,6 +106,12 @@ public class VclientesHospedados extends JFrame {
 		lblBuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				ReservaDAO.verClientesHospedados(
+						table, 
+						HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+						convertirFecha(dtFechaClienteHospedado));
+				
 			}
 		});
 		lblBuscar.setIcon(new ImageIcon(VclientesHospedados.class.getResource("/Imagenes/1490129321-rounded10_82180.png")));
@@ -114,8 +123,8 @@ public class VclientesHospedados extends JFrame {
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Vempleado empleado = new Vempleado(null);
-				empleado.setVisible(true);
+				Vempleado vEmpleado = new Vempleado(empleado);
+				vEmpleado.setVisible(true);
 				dispose();
 			}
 		});
@@ -124,7 +133,15 @@ public class VclientesHospedados extends JFrame {
 		lblAtras.setBounds(692, 11, 32, 32);
 		contentPane.add(lblAtras);
 
+	}
+	
+	public String convertirFecha(JDateChooser dt) {
 		
-
+		String dia = Integer.toString(dt.getCalendar().get(Calendar.DAY_OF_MONTH));
+		String mes =  Integer.toString(dt.getCalendar().get(Calendar.MONTH) + 1);
+		String año =  Integer.toString(dt.getCalendar().get(Calendar.YEAR));
+		
+		return año + "-" + mes + "-" + dia;
+		
 	}
 }

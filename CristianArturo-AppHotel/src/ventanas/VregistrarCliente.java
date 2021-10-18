@@ -40,6 +40,7 @@ public class VregistrarCliente extends JFrame {
 	private JTextField txtContraseña;
 	private String fechaSeleccionada;
 	private JDateChooser dtFechaNacimiento;
+	private Cliente clienteLogeado;
 	
 	private ClienteDAO gestionClientes;
 	private JTextField txtUsuario;
@@ -52,6 +53,21 @@ public class VregistrarCliente extends JFrame {
 		
 		CargarInterfazGrafica();
 		gestionClientes = new ClienteDAO();		
+		
+	}
+	
+	public VregistrarCliente(Cliente cliente) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VregistrarCliente.class.getResource("/Imagenes/hoteles.png")));
+		
+		CargarInterfazGrafica();
+		
+		this.clienteLogeado = cliente;
+		gestionClientes = new ClienteDAO();	
+
+		txtNombre.setText(clienteLogeado.getNombre());
+		txtApellido.setText(clienteLogeado.getApellidos());
+		txtDni.setText(clienteLogeado.getDNI());
+		txtUsuario.setText(clienteLogeado.getUsuario());
 		
 	}
 	
@@ -142,42 +158,83 @@ public class VregistrarCliente extends JFrame {
 		lblConfirmar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-Cliente cliente = null;
 				
-				if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
-				   !txtDni.getText().equals("") || !dtFechaNacimiento.getDate().toString().equals("") ||
-				   !txtUsuario.getText().equals("") || !txtContraseña.getText().equals("")
-				   ) 
-				{
+				if(clienteLogeado != null) {
 					
-					try {
-						
-						cliente = new Cliente(
-								txtNombre.getText(),
-								txtApellido.getText(),
-								txtDni.getText(),
-								convertirFecha(dtFechaNacimiento),
-								"URL:jejeje",
-								txtUsuario.getText(),
-								txtContraseña.getText()
-								);
-						
-					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, "Error al crear un cliente");
-					}
+					if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
+							   !txtDni.getText().equals("") || !dtFechaNacimiento.getDate().toString().equals("") ||
+							   !txtUsuario.getText().equals("") || !txtContraseña.getText().equals("")
+							   ) 
+							{
+								
+								try {
+									
+									clienteLogeado.setNombre(txtNombre.getText());
+									clienteLogeado.setApellidos(txtApellido.getText());
+									clienteLogeado.setDNI(txtDni.getText());
+									clienteLogeado.setFecha_nac(convertirFecha(dtFechaNacimiento));
+									clienteLogeado.setUsuario(txtUsuario.getText());
+									clienteLogeado.setContraseña(txtContraseña.getText());
+									
+								} catch (Exception ex) {
+									JOptionPane.showMessageDialog(null, "Error al crear un cliente");
+								}
+								
+								if(clienteLogeado != null && gestionClientes.modificar(clienteLogeado)) {
+									
+									Vcliente ventanaCliente = new Vcliente(clienteLogeado);
+									ventanaCliente.setVisible(true);
+									dispose();
+									
+								}
+							
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+							}
 					
-					if(cliente != null && gestionClientes.insertar(cliente)) {
-						
-						Vcliente ventanaCliente = new Vcliente(cliente);
-						ventanaCliente.setVisible(true);
-						dispose();
-						
-					}
-				
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+					
+					Cliente clienteNuevo = null;
+					
+					if(!txtNombre.getText().equals("") || !txtApellido.getText().equals("") ||
+					   !txtDni.getText().equals("") || !dtFechaNacimiento.getDate().toString().equals("") ||
+					   !txtUsuario.getText().equals("") || !txtContraseña.getText().equals("")
+					   ) 
+					{
+						
+						try {
+							
+							clienteNuevo = new Cliente(
+									txtNombre.getText(),
+									txtApellido.getText(),
+									txtDni.getText(),
+									convertirFecha(dtFechaNacimiento),
+									"URL:jejeje",
+									txtUsuario.getText(),
+									txtContraseña.getText()
+									);
+							
+						} catch (Exception ex) {
+							JOptionPane.showMessageDialog(null, "Error al crear un cliente");
+						}
+						
+						if(clienteNuevo != null && gestionClientes.insertar(clienteNuevo)) {
+							
+							Vcliente ventanaCliente = new Vcliente(clienteNuevo);
+							ventanaCliente.setVisible(true);
+							dispose();
+							
+						}
+					
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+					}
 				}
+				
+				
 			}
 		});
 		lblConfirmar.setIcon(new ImageIcon(VregistrarCliente.class.getResource("/Imagenes/Cnfirmar_96.png")));

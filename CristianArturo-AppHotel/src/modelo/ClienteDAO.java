@@ -62,8 +62,18 @@ public class ClienteDAO implements ICrud{
 			
 			Cliente cliente = (Cliente)obj;
 			
+			con.setStmt((con.getConnection()
+					.prepareStatement("UPDATE tusuario SET `usuario` = ?, `contraseña` = ? "
+							+ "WHERE `usuario` = (SELECT `usuario` FROM tcliente WHERE `idCliente` = ?);")));
+			
+			con.getStmt().setString(1, cliente.getUsuario());
+			con.getStmt().setString(2, cliente.getContraseña());
+			con.getStmt().setInt(3, cliente.getId());
+			
+			con.getStmt().executeUpdate();
+			
 			con.setStmt(con.getConnection()
-					.prepareStatement("UPDATE `tcliente` SET `nombre`= ?,`apellidos`= ?,`DNI`=' ?',"
+					.prepareStatement("UPDATE `tcliente` SET `nombre`= ?,`apellidos`= ?,`DNI`= ?,"
 							+ "`fechaNac`= ?,`imagen`= ? WHERE `idCliente` = ?"));
 			
 		    con.getStmt().setString(1, cliente.getNombre());

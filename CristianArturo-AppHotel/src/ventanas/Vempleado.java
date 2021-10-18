@@ -39,13 +39,13 @@ public class Vempleado extends JFrame {
 		CargarInterfazGrafica();
 		this.empleadoLogeado = empleadoLogeado;
 		gestionEmpleados = new EmpleadoDAO();
-		gestionEmpleados.mostrar(table, null);
+		gestionEmpleados.mostrar(table, empleadoLogeado.getUsuario());
 		
 		JLabel lblHabitacionesLibres = new JLabel("");
 		lblHabitacionesLibres.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VhabitacionesLibres hLibres = new VhabitacionesLibres();
+				VhabitacionesLibres hLibres = new VhabitacionesLibres(empleadoLogeado);
 				hLibres.setVisible(true);
 				dispose();
 			}
@@ -73,7 +73,7 @@ public class Vempleado extends JFrame {
 		lblClientesHospedados.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VclientesHospedados cHospedados = new VclientesHospedados();
+				VclientesHospedados cHospedados = new VclientesHospedados(empleadoLogeado);
 				cHospedados.setVisible(true);
 				dispose();
 			}
@@ -87,7 +87,7 @@ public class Vempleado extends JFrame {
 		lblComentarioHotel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VcomentarioHoteles cHoteles = new VcomentarioHoteles();
+				VcomentarioHoteles cHoteles = new VcomentarioHoteles(empleadoLogeado);
 				cHoteles.setVisible(true);
 				dispose();
 			}

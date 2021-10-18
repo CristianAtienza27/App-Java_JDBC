@@ -92,20 +92,30 @@ public class VcrudHabitaciones extends JFrame {
 		lblEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(gestionHabitaciones.eliminar(
-						new Habitacion(
-								HotelDAO.obtenerIdHotelPorNombre(table.getValueAt(table.getSelectedRow(), 0).toString()),
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString())))) {
+				
+				if(table.getSelectedRow() != -1) {
 					
-					gestionHabitaciones.mostrar(
-							table, 
-							String.valueOf(HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString())));
-					
-					Limpiar();
+					if(gestionHabitaciones.eliminar(
+							new Habitacion(
+									HotelDAO.obtenerIdHotelPorNombre(table.getValueAt(table.getSelectedRow(), 0).toString()),
+									Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString())))) {
+						
+						gestionHabitaciones.mostrar(
+								table, 
+								String.valueOf(HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString())));
+						
+						Limpiar();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al eliminar la habitación");
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Error al eliminar la habitación");
-				};
+					
+					JOptionPane.showMessageDialog(null, "Selecciona una habitación");
+					
+				}
+				
 			}
 		});
 		lblEliminar.setIcon(new ImageIcon(VcrudHabitaciones.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
@@ -117,8 +127,8 @@ public class VcrudHabitaciones extends JFrame {
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Vempleado empleado = new Vempleado(null);
-				empleado.setVisible(true);
+				Vempleado vEmpleado = new Vempleado(empleado);
+				vEmpleado.setVisible(true);
 				dispose();
 			}
 		});
@@ -131,6 +141,7 @@ public class VcrudHabitaciones extends JFrame {
 		lblMidificar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				if(gestionHabitaciones.modificar(
 						new Habitacion(
 								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString()),

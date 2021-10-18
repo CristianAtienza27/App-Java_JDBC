@@ -1,16 +1,20 @@
 package datos;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Reserva {
 	
 	private int numReserva;
 	private int idCliente;
 	private int idHotel;
+	private String hotel;
 	private int numHabitacion;
 	private String fechaIni;
 	private String fechaFin;
+	private String fechaReserva;
 	
 	public Reserva(int numReserva) {
-		super();
 		this.numReserva = numReserva;
 	}
 	
@@ -21,6 +25,7 @@ public class Reserva {
 		this.numHabitacion = numHabitacion;
 		this.fechaIni = fechaIni;
 		this.fechaFin = fechaFin;
+		this.fechaReserva = horaReserva();
 	}
 	
 	public Reserva(int idCliente, int numReserva, int idHotel, int numHabitacion, String fechaIni, String fechaFin) {
@@ -31,8 +36,33 @@ public class Reserva {
 		this.numHabitacion = numHabitacion;
 		this.fechaIni = fechaIni;
 		this.fechaFin = fechaFin;
+		this.fechaReserva = horaReserva();
 	}
 	
+	
+	public Reserva(int numReserva, String hotel) {
+		super();
+		this.numReserva = numReserva;
+		this.hotel = hotel;
+	}
+
+	
+	public String getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(String hotel) {
+		this.hotel = hotel;
+	}
+
+	public String getFechaReserva() {
+		return fechaReserva;
+	}
+
+	public void setFechaReserva(String fechaReserva) {
+		this.fechaReserva = fechaReserva;
+	}
+
 	public int getNumReserva() {
 		return numReserva;
 	}
@@ -70,6 +100,9 @@ public class Reserva {
 		this.fechaFin = fechaFin;
 	}
 	
-	
-	
+	public String horaReserva() {
+		 DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm");
+	     return dtf5.format(LocalDateTime.now());
+	}
+
 }

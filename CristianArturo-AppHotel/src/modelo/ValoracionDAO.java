@@ -64,7 +64,7 @@ public class ValoracionDAO implements ICrud{
 		
 		Conexion con = new Conexion();
 		
-		String[] columnNames = {"CLIENTE","HABITACIÓN","HOTEL","COMENTARIO","VALORACIÓN"};
+		String[] columnNames = {"CLIENTE","HABITACIÓN","COMENTARIO","VALORACIÓN"};
 		DefaultTableModel modelo = new DefaultTableModel(columnNames, 0);
 		
 		JTable jTable = (JTable)table;
@@ -72,11 +72,18 @@ public class ValoracionDAO implements ICrud{
 		try {
 			
 			con.setStmt(con.getConnection()
-					.prepareStatement("SELECT TC.nombre + ' '+ TC.apellidos, THA.tipo, THO.nombre, TV.comentario, TV.valoracion FROM tvaloracion TV INNER JOIN treserva TR "
+					.prepareStatement("SELECT TC.nombre, THA.tipo, TV.comentario, TV.valoracion  FROM tvaloracion TV \r\n"
+							+ "INNER JOIN treserva TR "
 							+ "ON TV.idReserva = TR.idReserva "
-							+ "INNER JOIN tcliente TC ON TR.idReserva = TC.IdCliente "
-							+ "INNER JOIN thabitacion THA ON TR.numHabitacion = THA.numHabitacion "
-							+ "INNER JOIN thotel THO ON THA.idHotel = THO.idHotel"));
+							+ "INNER JOIN thotel THO "
+							+ "ON TR.idHotel = THO.idHotel "
+							+ "INNER JOIN tcliente TC "
+							+ "ON TR.IdCliente = TC.IdCliente "
+							+ "INNER JOIN thabitacion THA "
+							+ "ON TR.numHabitacion = THA.numHabitacion "
+							+ "WHERE THO.nombre = ?"));
+			
+			con.getStmt().setString(1, id);
 			
 			con.setRs();
 			
@@ -84,11 +91,10 @@ public class ValoracionDAO implements ICrud{
 				
 				String cliente  = con.getRs().getString(1);
 				String habitacion = con.getRs().getString(2);
-				String hotel = con.getRs().getString(3);
-				String comentario = con.getRs().getString(4);
-				int valoracion = con.getRs().getInt(5);
+				String comentario = con.getRs().getString(3);
+				int valoracion = con.getRs().getInt(4);
 				
-				modelo.addRow(new Object[] {cliente, habitacion, hotel, comentario, valoracion});
+				modelo.addRow(new Object[] {cliente, habitacion, comentario, valoracion});
 				
 				//empleados.add(new Empleado(id, nombre, apellidos, dni, fechaNac, poblacion, idHotel, usuario, null));
 			}

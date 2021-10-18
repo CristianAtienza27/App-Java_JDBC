@@ -64,100 +64,11 @@ public class VcrudHoteles extends JFrame {
 	public VcrudHoteles(Empleado empleado) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VcrudHoteles.class.getResource("/Imagenes/hoteles.png")));
 		CargarInterfazGrafica();
+		
 		this.empleado = empleado;
 		
 		gestionHoteles = new HotelDAO();
-		contentPane.setLayout(null);
-		contentPane.add(lblHotel);
-		contentPane.add(lblTablaHotel);
-		contentPane.add(lblNombre);
-		contentPane.add(txtNombre);
-		contentPane.add(lblDescripcion);
-		contentPane.add(txtDescripcion);
-		contentPane.add(lblCiudad);
-		contentPane.add(txtCiudad);
-		contentPane.add(lblDireccion);
-		contentPane.add(txtDireccion);
-		contentPane.add(lblTelefono);
-		contentPane.add(txtTelefono);
-		contentPane.add(pnlTablaHotel);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 383, 346);
-		pnlTablaHotel.add(scrollPane);
-		
-		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtNombre.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-				txtDescripcion.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
-				txtCiudad.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
-				txtDireccion.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
-				txtTelefono.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
-			}
-		});
-		scrollPane.setViewportView(table);
-		
-		lblInsertar = new JLabel("");
-		lblInsertar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(gestionHoteles.insertar(
-						new Hotel(
-								txtNombre.getText(),
-								txtDescripcion.getText(),
-								txtCiudad.getText(),
-								txtDireccion.getText(),
-								txtTelefono.getText()
-								)))
-				{					
-					gestionHoteles.mostrar(table, null);
-					Limpiar();		
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al insertar el hotel");
-				}
-			}
-		});
-		lblInsertar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
-		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInsertar.setBounds(30, 351, 99, 99);
-		contentPane.add(lblInsertar);
-		
-		lblModificar = new JLabel("");
-		lblModificar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/modif.png")));
-		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblModificar.setBounds(139, 351, 99, 99);
-		contentPane.add(lblModificar);
-		
-		lblEliminar = new JLabel("");
-		lblEliminar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				gestionHoteles.eliminar(new Hotel(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString())));
-			}
-		});
-		lblEliminar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
-		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminar.setBounds(248, 351, 99, 99);
-		contentPane.add(lblEliminar);
-		
-		lblAtras = new JLabel("");
-		lblAtras.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
-		lblAtras.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Vempleado empleado = new Vempleado(null);
-				empleado.setVisible(true);
-				dispose();
-			}
-		});
-		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAtras.setBounds(745, 11, 32, 32);
-		contentPane.add(lblAtras);
-		
-		
+		gestionHoteles.mostrar(table, null);
 		
 	}
 	
@@ -223,6 +134,133 @@ public class VcrudHoteles extends JFrame {
 		
 		lblNombre = new JLabel("NOMBRE");
 		lblNombre.setBounds(30, 80, 120, 30);
+		
+		contentPane.setLayout(null);
+		contentPane.add(lblHotel);
+		contentPane.add(lblTablaHotel);
+		contentPane.add(lblNombre);
+		contentPane.add(txtNombre);
+		contentPane.add(lblDescripcion);
+		contentPane.add(txtDescripcion);
+		contentPane.add(lblCiudad);
+		contentPane.add(txtCiudad);
+		contentPane.add(lblDireccion);
+		contentPane.add(txtDireccion);
+		contentPane.add(lblTelefono);
+		contentPane.add(txtTelefono);
+		contentPane.add(pnlTablaHotel);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 383, 346);
+		pnlTablaHotel.add(scrollPane);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtNombre.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+				txtDescripcion.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
+				txtCiudad.setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+				txtDireccion.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
+				txtTelefono.setText(table.getValueAt(table.getSelectedRow(), 5).toString());
+			}
+		});
+		scrollPane.setViewportView(table);
+		
+		lblInsertar = new JLabel("");
+		lblInsertar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(gestionHoteles.insertar(
+						new Hotel(
+								txtNombre.getText(),
+								txtDescripcion.getText(),
+								txtCiudad.getText(),
+								txtDireccion.getText(),
+								txtTelefono.getText()
+								)))
+				{					
+					gestionHoteles.mostrar(table, null);
+					Limpiar();		
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error al insertar el hotel");
+				}
+			}
+		});
+		lblInsertar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
+		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsertar.setBounds(30, 351, 99, 99);
+		contentPane.add(lblInsertar);
+		
+		lblModificar = new JLabel("");
+		lblModificar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(gestionHoteles.modificar(
+						new Hotel(
+								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+								txtNombre.getText(),
+								txtCiudad.getText(),
+								txtDescripcion.getText(),
+								txtDireccion.getText(),
+								txtTelefono.getText()
+								))) 
+				{
+					
+					gestionHoteles.mostrar(table, null);
+					Limpiar();
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error al modificar");
+				}
+				
+			}
+		});
+		lblModificar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/modif.png")));
+		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModificar.setBounds(139, 351, 99, 99);
+		contentPane.add(lblModificar);
+		
+		lblEliminar = new JLabel("");
+		lblEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(gestionHoteles.eliminar(
+						new Hotel(
+								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()))))
+				{
+					gestionHoteles.mostrar(table, null);
+					Limpiar();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error al eliminar");
+				}
+				
+				
+			}
+		});
+		lblEliminar.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
+		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminar.setBounds(248, 351, 99, 99);
+		contentPane.add(lblEliminar);
+		
+		lblAtras = new JLabel("");
+		lblAtras.setIcon(new ImageIcon(VcrudHoteles.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vempleado vEmpleado = new Vempleado(empleado);
+				vEmpleado.setVisible(true);
+				dispose();
+			}
+		});
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(745, 11, 32, 32);
+		contentPane.add(lblAtras);
 	}
 	
 	public void Limpiar() {

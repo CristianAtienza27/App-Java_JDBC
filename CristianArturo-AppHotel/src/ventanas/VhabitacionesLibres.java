@@ -10,12 +10,14 @@ import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 
+import datos.Empleado;
 import modelo.HotelDAO;
 import modelo.ReservaDAO;
 
@@ -30,14 +32,22 @@ public class VhabitacionesLibres extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JComboBox comboBox;
+	private Empleado empleado;
 	private ReservaDAO gestionReservas;
+	private HotelDAO gestionHoteles;
 
 	/**
 	 * Create the frame.
 	 */
-	public VhabitacionesLibres() {
+	public VhabitacionesLibres(Empleado empleado) {
 		CargarInterfazGrafica();
 		
+		this.empleado = empleado;
+		gestionReservas = new ReservaDAO();
+		gestionHoteles = new HotelDAO();
+		
+		gestionHoteles.mostrar(comboBox, null);
 		
 	}
 	
@@ -92,7 +102,7 @@ public class VhabitacionesLibres extends JFrame {
 		lblFechaFin.setBounds(343, 94, 89, 23);
 		contentPane.add(lblFechaFin);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(220, 60, 113, 22);
 		contentPane.add(comboBox);
 		
@@ -110,8 +120,8 @@ public class VhabitacionesLibres extends JFrame {
 		lblAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Vempleado empleado = new Vempleado(null);
-				empleado.setVisible(true);
+				Vempleado vEmpleado = new Vempleado(empleado);
+				vEmpleado.setVisible(true);
 				dispose();
 			}
 		});
@@ -129,11 +139,16 @@ public class VhabitacionesLibres extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				gestionReservas.buscarHabitacionesLibres(
-						table,
-						HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()), 
-						convertirFecha(dtFechaIni),
-						convertirFecha(dtFechaFin));
+				if(dtFechaIni.getCalendar() != null || dtFechaFin.getCalendar() != null) {
+					gestionReservas.buscarHabitacionesLibres(
+							table,
+							HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()), 
+							convertirFecha(dtFechaIni),
+							convertirFecha(dtFechaFin));
+				}	
+				else {
+					JOptionPane.showMessageDialog(null, "Selecciona el día de entrada y de salida");
+				}
 				
 			}
 			

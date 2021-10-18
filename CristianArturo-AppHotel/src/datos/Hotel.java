@@ -20,7 +20,15 @@ public class Hotel {
 		this.telefono = telefono;
 	}
 	
-	
+	public Hotel(int id, String nombre, String descripcion, String ciudad, String direccion, String telefono) {
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.ciudad = ciudad;
+		this.direccion = direccion;
+		this.telefono = telefono;
+	}
+
 	public int getId() {
 		return id;
 	}

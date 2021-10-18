@@ -64,111 +64,6 @@ public class Vadmin extends JFrame {
 		gestionHoteles.mostrar(comboBox, null);
 		gestionEmpleados.mostrar(table, null);
 		
-		JLabel lblInsertar = new JLabel("");
-		lblInsertar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(gestionEmpleados.insertar(
-						new Empleado(
-								txtNombre.getText(),
-								txtApellido.getText(),
-								txtDni.getText(),
-								convertirFecha(dtFechaNacimiento),
-								txtPoblacion.getText(),
-								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
-								txtUsuario.getText(),
-								txtContraseña.getText()
-								))) 
-				{
-					gestionEmpleados.mostrar(table, null);
-					
-				}
-				else 
-				{
-					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
-				}
-			}
-		});
-		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInsertar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
-		lblInsertar.setBounds(30, 438, 64, 64);
-		contentPane.add(lblInsertar);
-		
-		JLabel lblModificar = new JLabel("");
-		lblModificar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				if(	gestionEmpleados.modificar(
-						new Empleado(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
-								txtNombre.getText(),
-								txtApellido.getText(),
-								txtDni.getText(),
-								convertirFecha(dtFechaNacimiento),
-								txtPoblacion.getText(),
-								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
-								txtUsuario.getText(),
-								txtContraseña.getText()
-								))) 
-				{
-					//Limpiar
-					gestionEmpleados.mostrar(table, null);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
-				};
-				
-			}
-		});
-		lblModificar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/modif.png")));
-		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblModificar.setBounds(150, 441, 64, 64);
-		contentPane.add(lblModificar);
-		
-		
-		
-		
-		JLabel lblEliminar = new JLabel("");
-		lblEliminar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(gestionEmpleados.eliminar(
-						new Empleado(
-								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString())))
-						) 
-				{
-					//Limpiar
-					gestionEmpleados.mostrar(table, null);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Error al eliminar un registro");
-				}
-			}
-		});
-		
-		
-		
-		
-		lblEliminar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
-		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEliminar.setBounds(276, 438, 64, 64);
-		contentPane.add(lblEliminar);
-		
-		JLabel lblAtras = new JLabel("");
-		lblAtras.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Vlogin login = new Vlogin();
-				login.setVisible(true);
-				dispose();
-			}
-		});
-		lblAtras.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
-		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAtras.setBounds(1133, 11, 32, 32);
-		contentPane.add(lblAtras);
-		
 	}
 	
 	public void CargarInterfazGrafica() {
@@ -292,6 +187,111 @@ public class Vadmin extends JFrame {
 		comboBox = new JComboBox();
 		comboBox.setBounds(243, 302, 190, 22);
 		contentPane.add(comboBox);
+		
+		JLabel lblInsertar = new JLabel("");
+		lblInsertar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(gestionEmpleados.insertar(
+						new Empleado(
+								txtNombre.getText(),
+								txtApellido.getText(),
+								txtDni.getText(),
+								convertirFecha(dtFechaNacimiento),
+								txtPoblacion.getText(),
+								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+								txtUsuario.getText(),
+								txtContraseña.getText()
+								))) 
+				{
+					gestionEmpleados.mostrar(table, null);
+					
+				}
+				else 
+				{
+					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+				}
+			}
+		});
+		lblInsertar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsertar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/insert_new_customer_icon-icons.com_72387.png")));
+		lblInsertar.setBounds(30, 438, 64, 64);
+		contentPane.add(lblInsertar);
+		
+		JLabel lblModificar = new JLabel("");
+		lblModificar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if(	gestionEmpleados.modificar(
+						new Empleado(
+								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+								txtNombre.getText(),
+								txtApellido.getText(),
+								txtDni.getText(),
+								convertirFecha(dtFechaNacimiento),
+								txtPoblacion.getText(),
+								HotelDAO.obtenerIdHotelPorNombre(comboBox.getSelectedItem().toString()),
+								txtUsuario.getText(),
+								txtContraseña.getText()
+								))) 
+				{
+					//Limpiar
+					gestionEmpleados.mostrar(table, null);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error al insertar empleado");
+				};
+				
+			}
+		});
+		lblModificar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/modif.png")));
+		lblModificar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModificar.setBounds(150, 441, 64, 64);
+		contentPane.add(lblModificar);
+		
+		
+		
+		
+		JLabel lblEliminar = new JLabel("");
+		lblEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(gestionEmpleados.eliminar(
+						new Empleado(
+								Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString())))
+						) 
+				{
+					//Limpiar
+					gestionEmpleados.mostrar(table, null);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Error al eliminar un registro");
+				}
+			}
+		});
+		
+		
+		
+		
+		lblEliminar.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/seo-social-web-network-internet_262_icon-icons.com_61518.png")));
+		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminar.setBounds(276, 438, 64, 64);
+		contentPane.add(lblEliminar);
+		
+		JLabel lblAtras = new JLabel("");
+		lblAtras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Vlogin login = new Vlogin();
+				login.setVisible(true);
+				dispose();
+			}
+		});
+		lblAtras.setIcon(new ImageIcon(Vadmin.class.getResource("/Imagenes/backleftarrowoutlinesymbolinblackcircularbutton_104747.png")));
+		lblAtras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAtras.setBounds(1133, 11, 32, 32);
+		contentPane.add(lblAtras);
 	}
 	
 	public String convertirFecha(JDateChooser dt) {

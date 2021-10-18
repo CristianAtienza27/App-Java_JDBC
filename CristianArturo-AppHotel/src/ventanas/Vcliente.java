@@ -87,7 +87,7 @@ public class Vcliente extends JFrame {
 		lblModificarDatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VregistrarCliente registrarCliente = new VregistrarCliente();
+				VregistrarCliente registrarCliente = new VregistrarCliente(clienteLogeado);
 				registrarCliente.setVisible(true);
 				dispose();
 			}
